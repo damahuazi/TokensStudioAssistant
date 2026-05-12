@@ -2,9 +2,9 @@ import React from 'react';
 import { useTokenStore } from '../../stores/tokenStore';
 
 export const ButtonDemo: React.FC = () => {
-  const { tokens, mode, fontConfig } = useTokenStore();
+  const { tokens, mode: storeMode, fontConfig } = useTokenStore();
 
-  const themeSet = tokens[mode];
+  const themeSet = tokens[storeMode];
   const global = tokens.global;
 
   const resolveToken = (path: string): string => {
@@ -66,7 +66,9 @@ export const ButtonDemo: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="space-y-4">
-        <h4 className="text-xs text-zinc-500 uppercase tracking-wide">Variants</h4>
+        <h4 className={`text-xs uppercase tracking-wide ${
+          storeMode === 'light' ? 'text-zinc-600' : 'text-zinc-500'
+        }`}>Variants</h4>
         <div className="flex flex-wrap gap-3">
           {buttonVariants.map(({ key, label }) => (
             <button
@@ -83,7 +85,9 @@ export const ButtonDemo: React.FC = () => {
       </div>
 
       <div className="space-y-4">
-        <h4 className="text-xs text-zinc-500 uppercase tracking-wide">With Icons</h4>
+        <h4 className={`text-xs uppercase tracking-wide ${
+          storeMode === 'light' ? 'text-zinc-600' : 'text-zinc-500'
+        }`}>With Icons</h4>
         <div className="flex flex-wrap gap-3">
           {buttonVariants.map(({ key, label }) => (
             <button
@@ -113,7 +117,9 @@ export const ButtonDemo: React.FC = () => {
       </div>
 
       <div className="space-y-4">
-        <h4 className="text-xs text-zinc-500 uppercase tracking-wide">States</h4>
+        <h4 className={`text-xs uppercase tracking-wide ${
+          storeMode === 'light' ? 'text-zinc-600' : 'text-zinc-500'
+        }`}>States</h4>
         <div className="flex flex-wrap gap-3">
           <button
             style={getButtonStyle('primary')}

@@ -3,7 +3,7 @@ import { Download, Copy, Check } from 'lucide-react';
 import { useTokenStore } from '../../stores/tokenStore';
 
 export const ExportButton: React.FC = () => {
-  const { tokens } = useTokenStore();
+  const { tokens, mode } = useTokenStore();
   const [copied, setCopied] = useState(false);
   const [downloading, setDownloading] = useState(false);
 
@@ -40,6 +40,8 @@ export const ExportButton: React.FC = () => {
         className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-medium text-sm transition-all ${
           copied
             ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+            : mode === 'light'
+            ? 'bg-zinc-100 text-zinc-900 border border-zinc-300 hover:bg-zinc-200'
             : 'bg-zinc-800 text-zinc-200 border border-zinc-700 hover:bg-zinc-700'
         }`}
       >

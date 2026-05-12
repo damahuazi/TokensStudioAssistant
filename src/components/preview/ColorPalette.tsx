@@ -3,7 +3,7 @@ import { useTokenStore } from '../../stores/tokenStore';
 import { ColorSwatch } from './ColorSwatch';
 
 export const ColorPalette: React.FC = () => {
-  const { tokens, themeColor } = useTokenStore();
+  const { tokens, themeColor, mode } = useTokenStore();
 
   const colorCategories = [
     { key: 'brand', label: 'Brand', description: 'Primary brand colors' },
@@ -27,8 +27,12 @@ export const ColorPalette: React.FC = () => {
                 className="w-3 h-3 rounded-full"
                 style={{ backgroundColor: scale[scaleKeys[4]]?.value }}
               />
-              <h3 className="text-sm font-medium text-zinc-200">{category.label}</h3>
-              <span className="text-xs text-zinc-500">{category.description}</span>
+              <h3 className={`text-sm font-medium ${
+                mode === 'light' ? 'text-zinc-900' : 'text-zinc-200'
+              }`}>{category.label}</h3>
+              <span className={`text-xs ${
+                mode === 'light' ? 'text-zinc-500' : 'text-zinc-500'
+              }`}>{category.description}</span>
             </div>
             <div className="grid grid-cols-5 gap-2">
               {scaleKeys.map((key) => (

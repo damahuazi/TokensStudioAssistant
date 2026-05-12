@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTokenStore } from '../../stores/tokenStore';
 
 export const ColorPicker: React.FC = () => {
-  const { themeColor, setThemeColor } = useTokenStore();
+  const { themeColor, setThemeColor, mode } = useTokenStore();
   const [inputValue, setInputValue] = useState(themeColor);
 
   useEffect(() => {
@@ -41,10 +41,14 @@ export const ColorPicker: React.FC = () => {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <label className="text-sm font-medium text-zinc-200">
+        <label className={`text-sm font-medium ${
+          mode === 'light' ? 'text-zinc-900' : 'text-zinc-200'
+        }`}>
           Theme Color
         </label>
-        <span className="text-xs text-zinc-500 font-mono">{inputValue.toUpperCase()}</span>
+        <span className={`text-xs font-mono ${
+          mode === 'light' ? 'text-zinc-600' : 'text-zinc-500'
+        }`}>{inputValue.toUpperCase()}</span>
       </div>
 
       <div className="flex items-center gap-3">
@@ -53,7 +57,9 @@ export const ColorPicker: React.FC = () => {
             type="color"
             value={themeColor}
             onChange={handleColorChange}
-            className="w-12 h-12 rounded-lg cursor-pointer border-2 border-zinc-700 bg-transparent"
+            className={`w-12 h-12 rounded-lg cursor-pointer border-2 bg-transparent ${
+              mode === 'light' ? 'border-zinc-300' : 'border-zinc-700'
+            }`}
             style={{ padding: 0 }}
           />
         </div>
@@ -63,8 +69,11 @@ export const ColorPicker: React.FC = () => {
           value={inputValue}
           onChange={handleInputChange}
           placeholder="#3b82f6"
-          className="flex-1 px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm font-mono text-zinc-200
-            focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 transition-all"
+          className={`flex-1 px-3 py-2 border rounded-lg text-sm font-mono transition-all focus:outline-none focus:ring-1 ${
+            mode === 'light'
+              ? 'bg-white border-zinc-300 text-zinc-900 focus:border-blue-500 focus:ring-blue-500/50'
+              : 'bg-zinc-800 border-zinc-700 text-zinc-200 focus:border-blue-500 focus:ring-blue-500/50'
+          }`}
         />
       </div>
 
@@ -79,6 +88,8 @@ export const ColorPicker: React.FC = () => {
             className={`w-8 h-8 rounded-md border-2 transition-all duration-200 ${
               themeColor === color
                 ? 'border-white scale-110 shadow-lg'
+                : mode === 'light'
+                ? 'border-transparent hover:border-zinc-400'
                 : 'border-transparent hover:border-zinc-600'
             }`}
             style={{ backgroundColor: color }}

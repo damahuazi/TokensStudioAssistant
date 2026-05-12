@@ -6,9 +6,9 @@ interface ThemePreviewProps {
   mode: 'light' | 'dark';
 }
 
-export const ThemePreview: React.FC<ThemePreviewProps> = ({ mode }) => {
-  const { tokens } = useTokenStore();
-  const themeSet = tokens[mode];
+export const ThemePreview: React.FC<ThemePreviewProps> = ({ mode: previewMode }) => {
+  const { tokens, mode } = useTokenStore();
+  const themeSet = tokens[previewMode];
 
   const resolveToken = (path: string): string => {
     if (!path.startsWith('{') || !path.endsWith('}')) {
@@ -62,7 +62,7 @@ export const ThemePreview: React.FC<ThemePreviewProps> = ({ mode }) => {
           const resolvedColor = resolveToken(token.value);
           return (
             <ColorSwatch
-              key={`${mode}-${key}`}
+              key={`${previewMode}-${key}`}
               color={resolvedColor}
               name={label}
               scale={description}
@@ -76,11 +76,15 @@ export const ThemePreview: React.FC<ThemePreviewProps> = ({ mode }) => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-medium text-zinc-200 capitalize">
-          {mode} Theme
+        <h3 className={`text-sm font-medium capitalize ${
+          mode === 'light' ? 'text-zinc-900' : 'text-zinc-200'
+        }`}>
+          {previewMode} Theme
         </h3>
         <div 
-          className="w-8 h-8 rounded border border-zinc-700"
+          className={`w-8 h-8 rounded border ${
+            mode === 'light' ? 'border-zinc-300' : 'border-zinc-700'
+          }`}
           style={{ 
             backgroundColor: resolveToken(themeSet.surface?.canvas?.value || '#ffffff') 
           }}
@@ -89,21 +93,27 @@ export const ThemePreview: React.FC<ThemePreviewProps> = ({ mode }) => {
 
       <div className="space-y-6">
         <div className="space-y-3">
-          <h4 className="text-xs text-zinc-500 uppercase tracking-wide font-semibold">
+          <h4 className={`text-xs uppercase tracking-wide font-semibold ${
+            mode === 'light' ? 'text-zinc-600' : 'text-zinc-500'
+          }`}>
             Surface 背景
           </h4>
           {renderColorGrid(surfaceCategories, themeSet.surface)}
         </div>
 
         <div className="space-y-3">
-          <h4 className="text-xs text-zinc-500 uppercase tracking-wide font-semibold">
+          <h4 className={`text-xs uppercase tracking-wide font-semibold ${
+            mode === 'light' ? 'text-zinc-600' : 'text-zinc-500'
+          }`}>
             Border 边框
           </h4>
           {renderColorGrid(borderCategories, themeSet.border)}
         </div>
 
         <div className="space-y-3">
-          <h4 className="text-xs text-zinc-500 uppercase tracking-wide font-semibold">
+          <h4 className={`text-xs uppercase tracking-wide font-semibold ${
+            mode === 'light' ? 'text-zinc-600' : 'text-zinc-500'
+          }`}>
             Text 文本
           </h4>
           {renderColorGrid(textCategories, themeSet.text)}
