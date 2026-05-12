@@ -30,35 +30,35 @@ export const ButtonDemo: React.FC = () => {
   ] as const;
 
   const getButtonStyle = (variant: 'primary' | 'secondary' | 'ghost', hover = false) => {
-    const variantTokens = tokens.components.button[variant];
-    
     let backgroundColor: string;
     let foregroundColor: string;
     
     if (variant === 'primary') {
-      backgroundColor = hover
-        ? resolveToken(variantTokens.backgroundHover.value)
-        : resolveToken(variantTokens.background.value);
-      foregroundColor = resolveToken(themeSet.text?.onBrand?.value || '#ffffff');
+      const brandColor = storeMode === 'light' 
+        ? global.color.brand[500]?.value 
+        : global.color.brand[400]?.value;
+      const hoverColor = global.color.brand[600]?.value;
+      backgroundColor = hover ? hoverColor : brandColor;
+      foregroundColor = storeMode === 'light' ? '#ffffff' : global.color.neutral[900]?.value;
     } else if (variant === 'secondary') {
       backgroundColor = hover
-        ? resolveToken(themeSet.surface?.subtle?.value || '#f4f4f5')
-        : resolveToken(themeSet.surface?.default?.value || '#ffffff');
-      foregroundColor = resolveToken(themeSet.text?.primary?.value || '#18181b');
+        ? themeSet.surface?.subtle?.value
+        : themeSet.surface?.default?.value;
+      foregroundColor = themeSet.text?.primary?.value;
     } else {
       backgroundColor = hover
-        ? resolveToken(themeSet.surface?.subtle?.value || '#f4f4f5')
+        ? themeSet.surface?.subtle?.value
         : 'transparent';
-      foregroundColor = resolveToken(themeSet.text?.primary?.value || '#18181b');
+      foregroundColor = themeSet.text?.primary?.value;
     }
 
     return {
       backgroundColor,
       color: foregroundColor,
-      borderRadius: resolveToken(variantTokens.borderRadius.value),
-      padding: `${resolveToken(variantTokens.paddingY.value)} ${resolveToken(variantTokens.paddingX.value)}`,
-      fontSize: resolveToken(variantTokens.fontSize.value),
-      fontWeight: resolveToken(variantTokens.fontWeight.value),
+      borderRadius: '8px',
+      padding: '8px 24px',
+      fontSize: '16px',
+      fontWeight: '500',
       fontFamily: fontConfig.primaryFont,
     };
   };
