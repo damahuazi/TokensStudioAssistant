@@ -9,7 +9,7 @@ export const JsonPreview: React.FC = () => {
   const lineCount = jsonString.split('\n').length;
 
   return (
-    <div className="relative">
+    <div className="h-full flex flex-col">
       <div className={`flex items-center justify-between px-4 py-2 border-b rounded-t-lg ${
         mode === 'light'
           ? 'bg-zinc-100 border-zinc-200'
@@ -26,7 +26,7 @@ export const JsonPreview: React.FC = () => {
           {lineCount} lines
         </span>
       </div>
-      <div className={`relative overflow-auto max-h-[400px] rounded-b-lg border ${
+      <div className={`flex-1 overflow-auto rounded-b-lg border ${
         mode === 'light'
           ? 'bg-zinc-50 border-zinc-200'
           : 'bg-zinc-900 border-zinc-800'

@@ -1,7 +1,9 @@
 import React from 'react';
 import { ConfigPanel } from '../config/ConfigPanel';
 import { PreviewPanel } from '../preview/PreviewPanel';
+import { JsonPreview } from '../export/JsonPreview';
 import { Sidebar } from './Sidebar';
+import { SplitPanel } from './SplitPanel';
 import { useTokenStore } from '../../stores/tokenStore';
 
 export const AppShell: React.FC = () => {
@@ -18,10 +20,12 @@ export const AppShell: React.FC = () => {
         </div>
       </div>
       
-      <main className="flex-1 overflow-y-auto">
-        <div className="p-4">
-          <PreviewPanel />
-        </div>
+      <main className="flex-1 h-full overflow-hidden">
+        <SplitPanel 
+          top={<div className="p-4"><PreviewPanel /></div>}
+          bottom={<div className="p-4"><JsonPreview /></div>}
+          initialRatio={0.6}
+        />
       </main>
     </div>
   );
