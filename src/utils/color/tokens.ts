@@ -5,6 +5,7 @@ import {
   generateSuccessScale,
   generateWarningScale,
   generateErrorScale,
+  generateInfoScale,
 } from './oklch';
 
 const createTokenValue = (value: string, type: string): TokenValue => ({
@@ -22,6 +23,7 @@ export const generateTokens = (
   const successScale = generateSuccessScale(themeColor, scaleCount);
   const warningScale = generateWarningScale(themeColor, scaleCount);
   const errorScale = generateErrorScale(themeColor, scaleCount);
+  const infoScale = generateInfoScale(themeColor, scaleCount);
 
   const colorScaleKeys = Object.keys(brandScale);
 
@@ -41,6 +43,9 @@ export const generateTokens = (
       ),
       error: Object.fromEntries(
         colorScaleKeys.map((key) => [key, createTokenValue(errorScale[key], 'color')])
+      ),
+      info: Object.fromEntries(
+        colorScaleKeys.map((key) => [key, createTokenValue(infoScale[key], 'color')])
       ),
     },
     typography: {
@@ -115,6 +120,7 @@ export const generateTokens = (
       success: createTokenValue('{global.color.success.500}', 'color'),
       warning: createTokenValue('{global.color.warning.500}', 'color'),
       error: createTokenValue('{global.color.error.500}', 'color'),
+      info: createTokenValue('{global.color.info.500}', 'color'),
     },
   };
 
@@ -143,6 +149,7 @@ export const generateTokens = (
       success: createTokenValue('{global.color.success.400}', 'color'),
       warning: createTokenValue('{global.color.warning.400}', 'color'),
       error: createTokenValue('{global.color.error.400}', 'color'),
+      info: createTokenValue('{global.color.info.400}', 'color'),
     },
   };
 

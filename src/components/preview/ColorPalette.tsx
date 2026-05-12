@@ -11,13 +11,14 @@ export const ColorPalette: React.FC = () => {
     { key: 'success', label: 'Success', description: 'Success state colors' },
     { key: 'warning', label: 'Warning', description: 'Warning state colors' },
     { key: 'error', label: 'Error', description: 'Error state colors' },
+    { key: 'info', label: 'Info', description: 'Info state colors' },
   ];
 
   return (
     <div className="space-y-6">
       {colorCategories.map((category) => {
         const scale = tokens.global.color[category.key];
-        const scaleKeys = Object.keys(scale).sort();
+        const scaleKeys = Object.keys(scale).sort((a, b) => parseInt(a) - parseInt(b));
 
         return (
           <div key={category.key} className="space-y-3">

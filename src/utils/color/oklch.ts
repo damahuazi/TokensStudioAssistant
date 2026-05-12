@@ -76,13 +76,11 @@ export const generateNeutralScale = (
   return scale;
 };
 
-export const generateSemanticColor = (
-  baseHex: string,
-  hueShift: number,
-  chromaMultiplier: number = 1,
+export const generateFixedColorScale = (
+  baseHue: number,
+  baseChroma: number,
   count: number = 10
 ): { [key: string]: string } => {
-  const { l, c, h } = hexToOklch(baseHex);
   const scale: { [key: string]: string } = {};
   
   const lightnessSteps = [
@@ -90,26 +88,28 @@ export const generateSemanticColor = (
   ];
   
   const scaleKeys = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'];
-  const newH = (h + hueShift + 360) % 360;
   
   for (let i = 0; i < Math.min(count, 10); i++) {
-    const targetL = lightnessSteps[i];
-    const adjustedC = c * chromaMultiplier * (1 - Math.abs(targetL - 0.5) * 0.5);
-    
-    scale[scaleKeys[i]] = oklchToHex(targetL, Math.max(0, adjustedC), newH);
+    const l = lightnessSteps[i];
+    const c = Math.max(0, baseChroma * (1 - Math.abs(l - 0.5) * 0.4));
+    scale[scaleKeys[i]] = oklchToHex(l, c, baseHue);
   }
   
   return scale;
 };
 
 export const generateSuccessScale = (baseHex: string, count: number = 10) => {
-  return generateSemanticColor(baseHex, 140, 0.8, count);
+  return generateFixedColorScale(145, 0.25, count);
 };
 
 export const generateWarningScale = (baseHex: string, count: number = 10) => {
-  return generateSemanticColor(baseHex, 60, 0.9, count);
+  return generateFixedColorScale(50, 0.28, count);
 };
 
 export const generateErrorScale = (baseHex: string, count: number = 10) => {
-  return generateSemanticColor(baseHex, -20, 0.95, count);
+  return generateFixedColorScale(25, 0.28, count);
+};
+
+export const generateInfoScale = (baseHex: string, count: number = 10) => {
+  return generateFixedColorScale(220, 0.22, count);
 };
