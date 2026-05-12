@@ -4,18 +4,22 @@ import { useTokenStore } from '../../stores/tokenStore';
 export const TypographyList: React.FC = () => {
   const { tokens, fontConfig, mode } = useTokenStore();
 
-  const fontSizes = tokens.global.typography.fontSize;
-  const fontWeights = tokens.global.typography.fontWeight;
-  const lineHeights = tokens.global.typography.lineHeight;
+  const fontSizes = tokens.global.fontSize;
+  const fontWeights = tokens.global.fontWeight;
+  const lineHeights = tokens.global.lineHeight;
 
   const fontSizeEntries = [
-    { key: 'xs', label: 'Extra Small' },
-    { key: 'sm', label: 'Small' },
-    { key: 'base', label: 'Base' },
-    { key: 'lg', label: 'Large' },
-    { key: 'xl', label: 'Extra Large' },
-    { key: '2xl', label: '2XL' },
-    { key: '3xl', label: '3XL' },
+    { key: '12', label: '12px' },
+    { key: '14', label: '14px' },
+    { key: '16', label: '16px' },
+    { key: '18', label: '18px' },
+    { key: '20', label: '20px' },
+    { key: '24', label: '24px' },
+    { key: '28', label: '28px' },
+    { key: '32', label: '32px' },
+    { key: '40', label: '40px' },
+    { key: '48', label: '48px' },
+    { key: '64', label: '64px' },
   ];
 
   return (

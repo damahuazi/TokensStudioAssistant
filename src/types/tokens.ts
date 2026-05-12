@@ -63,13 +63,45 @@ export interface ThemeSet {
   };
 }
 
+export interface TypographySet {
+  display: {
+    large: TokenValue;
+    medium: TokenValue;
+    small: TokenValue;
+  };
+  heading: {
+    xlarge: TokenValue;
+    large: TokenValue;
+    medium: TokenValue;
+    small: TokenValue;
+  };
+  body: {
+    large: TokenValue;
+    medium: TokenValue;
+    small: TokenValue;
+  };
+  label: {
+    large: TokenValue;
+    medium: TokenValue;
+  };
+}
+
 export interface GeneratedTokens {
   global: {
+    fontSize: {
+      [key: string]: TokenValue;
+    };
+    fontWeight: {
+      [key: string]: TokenValue;
+    };
+    lineHeight: {
+      [key: string]: TokenValue;
+    };
     color: ColorPrimitives;
-    typography: TypographyTokens;
     spacing: SpacingTokens;
     radius: RadiusTokens;
   };
+  typography: TypographySet;
   light: ThemeSet;
   dark: ThemeSet;
   components: {

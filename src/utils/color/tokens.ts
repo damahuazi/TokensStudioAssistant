@@ -28,6 +28,32 @@ export const generateTokens = (
   const colorScaleKeys = Object.keys(brandScale);
 
   const global: GeneratedTokens['global'] = {
+    fontSize: {
+      '12': createTokenValue('12px', 'fontSizes'),
+      '14': createTokenValue('14px', 'fontSizes'),
+      '16': createTokenValue('16px', 'fontSizes'),
+      '18': createTokenValue('18px', 'fontSizes'),
+      '20': createTokenValue('20px', 'fontSizes'),
+      '24': createTokenValue('24px', 'fontSizes'),
+      '28': createTokenValue('28px', 'fontSizes'),
+      '32': createTokenValue('32px', 'fontSizes'),
+      '40': createTokenValue('40px', 'fontSizes'),
+      '48': createTokenValue('48px', 'fontSizes'),
+      '64': createTokenValue('64px', 'fontSizes'),
+    },
+    fontWeight: {
+      normal: createTokenValue('400', 'fontWeight'),
+      medium: createTokenValue('500', 'fontWeight'),
+      semibold: createTokenValue('600', 'fontWeight'),
+      bold: createTokenValue('700', 'fontWeight'),
+    },
+    lineHeight: {
+      tight: createTokenValue('1.25', 'lineHeights'),
+      snug: createTokenValue('1.375', 'lineHeights'),
+      normal: createTokenValue('1.5', 'lineHeights'),
+      relaxed: createTokenValue('1.625', 'lineHeights'),
+      loose: createTokenValue('1.75', 'lineHeights'),
+    },
     color: {
       brand: Object.fromEntries(
         colorScaleKeys.map((key) => [key, createTokenValue(brandScale[key], 'color')])
@@ -48,37 +74,6 @@ export const generateTokens = (
         colorScaleKeys.map((key) => [key, createTokenValue(infoScale[key], 'color')])
       ),
     },
-    typography: {
-      fontSize: {
-        xs: createTokenValue(`${fontConfig.baseFontSize * 0.75}px`, 'dimension'),
-        sm: createTokenValue(`${fontConfig.baseFontSize * 0.875}px`, 'dimension'),
-        base: createTokenValue(`${fontConfig.baseFontSize}px`, 'dimension'),
-        lg: createTokenValue(`${fontConfig.baseFontSize * fontConfig.scaleRatio}px`, 'dimension'),
-        xl: createTokenValue(
-          `${fontConfig.baseFontSize * Math.pow(fontConfig.scaleRatio, 2)}px`,
-          'dimension'
-        ),
-        '2xl': createTokenValue(
-          `${fontConfig.baseFontSize * Math.pow(fontConfig.scaleRatio, 3)}px`,
-          'dimension'
-        ),
-        '3xl': createTokenValue(
-          `${fontConfig.baseFontSize * Math.pow(fontConfig.scaleRatio, 4)}px`,
-          'dimension'
-        ),
-      },
-      fontWeight: {
-        normal: createTokenValue('400', 'fontWeight'),
-        medium: createTokenValue('500', 'fontWeight'),
-        semibold: createTokenValue('600', 'fontWeight'),
-        bold: createTokenValue('700', 'fontWeight'),
-      },
-      lineHeight: {
-        tight: createTokenValue('1.25', 'number'),
-        normal: createTokenValue('1.5', 'number'),
-        relaxed: createTokenValue('1.75', 'number'),
-      },
-    },
     spacing: {
       xs: createTokenValue('4px', 'dimension'),
       sm: createTokenValue('8px', 'dimension'),
@@ -92,6 +87,65 @@ export const generateTokens = (
       md: createTokenValue('8px', 'dimension'),
       lg: createTokenValue('12px', 'dimension'),
       full: createTokenValue('9999px', 'dimension'),
+    },
+  };
+
+  const typography: GeneratedTokens['typography'] = {
+    display: {
+      large: createTokenValue(
+        '{global.fontSize.64} {global.fontWeight.bold} {global.lineHeight.tight}',
+        'typography'
+      ),
+      medium: createTokenValue(
+        '{global.fontSize.48} {global.fontWeight.bold} {global.lineHeight.tight}',
+        'typography'
+      ),
+      small: createTokenValue(
+        '{global.fontSize.40} {global.fontWeight.bold} {global.lineHeight.snug}',
+        'typography'
+      ),
+    },
+    heading: {
+      xlarge: createTokenValue(
+        '{global.fontSize.32} {global.fontWeight.bold} {global.lineHeight.snug}',
+        'typography'
+      ),
+      large: createTokenValue(
+        '{global.fontSize.28} {global.fontWeight.semibold} {global.lineHeight.snug}',
+        'typography'
+      ),
+      medium: createTokenValue(
+        '{global.fontSize.24} {global.fontWeight.semibold} {global.lineHeight.normal}',
+        'typography'
+      ),
+      small: createTokenValue(
+        '{global.fontSize.20} {global.fontWeight.semibold} {global.lineHeight.normal}',
+        'typography'
+      ),
+    },
+    body: {
+      large: createTokenValue(
+        '{global.fontSize.18} {global.fontWeight.normal} {global.lineHeight.relaxed}',
+        'typography'
+      ),
+      medium: createTokenValue(
+        '{global.fontSize.16} {global.fontWeight.normal} {global.lineHeight.relaxed}',
+        'typography'
+      ),
+      small: createTokenValue(
+        '{global.fontSize.14} {global.fontWeight.normal} {global.lineHeight.relaxed}',
+        'typography'
+      ),
+    },
+    label: {
+      large: createTokenValue(
+        '{global.fontSize.14} {global.fontWeight.semibold} {global.lineHeight.snug}',
+        'typography'
+      ),
+      medium: createTokenValue(
+        '{global.fontSize.12} {global.fontWeight.medium} {global.lineHeight.normal}',
+        'typography'
+      ),
     },
   };
 
@@ -166,7 +220,7 @@ export const generateTokens = (
       radius: createTokenValue('{global.radius.md}', 'borderRadius'),
       paddingX: createTokenValue('{global.spacing.md}', 'spacing'),
       paddingY: createTokenValue('{global.spacing.sm}', 'spacing'),
-      fontSize: createTokenValue('{global.typography.fontSize.base}', 'fontSize'),
+      fontSize: createTokenValue('{global.fontSize.16}', 'fontSize'),
     },
     button: {
       primary: {
@@ -176,8 +230,8 @@ export const generateTokens = (
         borderRadius: createTokenValue('{global.radius.md}', 'borderRadius'),
         paddingX: createTokenValue('{global.spacing.lg}', 'spacing'),
         paddingY: createTokenValue('{global.spacing.sm}', 'spacing'),
-        fontSize: createTokenValue('{global.typography.fontSize.base}', 'fontSize'),
-        fontWeight: createTokenValue('{global.typography.fontWeight.medium}', 'fontWeight'),
+        fontSize: createTokenValue('{global.fontSize.16}', 'fontSize'),
+        fontWeight: createTokenValue('{global.fontWeight.medium}', 'fontWeight'),
       },
       secondary: {
         background: createTokenValue('{light.surface.default}', 'color'),
@@ -186,8 +240,8 @@ export const generateTokens = (
         borderRadius: createTokenValue('{global.radius.md}', 'borderRadius'),
         paddingX: createTokenValue('{global.spacing.lg}', 'spacing'),
         paddingY: createTokenValue('{global.spacing.sm}', 'spacing'),
-        fontSize: createTokenValue('{global.typography.fontSize.base}', 'fontSize'),
-        fontWeight: createTokenValue('{global.typography.fontWeight.medium}', 'fontWeight'),
+        fontSize: createTokenValue('{global.fontSize.16}', 'fontSize'),
+        fontWeight: createTokenValue('{global.fontWeight.medium}', 'fontWeight'),
       },
       ghost: {
         background: createTokenValue('transparent', 'color'),
@@ -196,11 +250,11 @@ export const generateTokens = (
         borderRadius: createTokenValue('{global.radius.md}', 'borderRadius'),
         paddingX: createTokenValue('{global.spacing.lg}', 'spacing'),
         paddingY: createTokenValue('{global.spacing.sm}', 'spacing'),
-        fontSize: createTokenValue('{global.typography.fontSize.base}', 'fontSize'),
-        fontWeight: createTokenValue('{global.typography.fontWeight.medium}', 'fontWeight'),
+        fontSize: createTokenValue('{global.fontSize.16}', 'fontSize'),
+        fontWeight: createTokenValue('{global.fontWeight.medium}', 'fontWeight'),
       },
     },
   };
 
-  return { global, light, dark, components };
+  return { global, typography, light, dark, components };
 };
