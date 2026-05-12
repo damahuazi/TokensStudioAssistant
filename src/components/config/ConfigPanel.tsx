@@ -6,7 +6,7 @@ import { FontConfig } from './FontConfig';
 import { useTokenStore } from '../../stores/tokenStore';
 
 export const ConfigPanel: React.FC = () => {
-  const { mode, editMode, showJsonPreview, setShowJsonPreview } = useTokenStore();
+  const { mode, editMode, showJsonPreview, setShowJsonPreview, themeColor } = useTokenStore();
 
   return (
     <div className={`border rounded-xl backdrop-blur-sm transition-colors duration-300 ${
@@ -19,14 +19,14 @@ export const ConfigPanel: React.FC = () => {
       }`}>
         {editMode === 'color' ? (
           <>
-            <Palette className={`w-4 h-4 ${mode === 'light' ? 'text-blue-600' : 'text-blue-400'}`} />
+            <Palette className={`w-4 h-4`} style={{ color: themeColor }} />
             <span className={`text-sm font-medium ${
               mode === 'light' ? 'text-zinc-900' : 'text-zinc-200'
             }`}>Color</span>
           </>
         ) : (
           <>
-            <Type className={`w-4 h-4 ${mode === 'light' ? 'text-blue-600' : 'text-blue-400'}`} />
+            <Type className={`w-4 h-4`} style={{ color: themeColor }} />
             <span className={`text-sm font-medium ${
               mode === 'light' ? 'text-zinc-900' : 'text-zinc-200'
             }`}>Typography</span>
@@ -36,10 +36,7 @@ export const ConfigPanel: React.FC = () => {
 
       <div className="p-4 space-y-4">
         {editMode === 'color' ? (
-          <>
-            <ColorPicker />
-            <ScaleSlider />
-          </>
+          <ColorPicker />
         ) : (
           <FontConfig />
         )}
@@ -54,12 +51,13 @@ export const ConfigPanel: React.FC = () => {
               onChange={(e) => setShowJsonPreview(e.target.checked)}
               className={`w-4 h-4 rounded border-2 transition-colors duration-200 ${
                 mode === 'light' 
-                  ? 'border-zinc-300 bg-white accent-blue-500' 
-                  : 'border-zinc-600 bg-zinc-800 accent-blue-400'
+                  ? 'border-zinc-300 bg-white' 
+                  : 'border-zinc-600 bg-zinc-800'
               }`}
+              style={{ accentColor: themeColor }}
             />
             <div className="flex items-center gap-2">
-              <Code className={`w-4 h-4 ${mode === 'light' ? 'text-zinc-500' : 'text-zinc-400'}`} />
+              <Code className={`w-4 h-4`} style={{ color: themeColor }} />
               <span className={`text-sm ${mode === 'light' ? 'text-zinc-700' : 'text-zinc-300'}`}>
                 Show JSON Preview
               </span>

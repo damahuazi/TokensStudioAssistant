@@ -4,7 +4,18 @@ import { useTokenStore } from '../../stores/tokenStore';
 
 export const Sidebar: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const { mode, editMode, setEditMode } = useTokenStore();
+  const { mode, editMode, setEditMode, themeColor } = useTokenStore();
+
+  const getContrastColor = (hex: string): string => {
+    if (hex.length === 4) {
+      hex = '#' + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3];
+    }
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    const luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+    return luminance > 0.5 ? '#18181b' : '#ffffff';
+  };
 
   const navItems = [
     {
@@ -58,23 +69,24 @@ export const Sidebar: React.FC = () => {
             onClick={() => setEditMode(item.id)}
             className={`relative flex items-center gap-3 w-full px-3 py-3 rounded-lg transition-all duration-200 group ${
               editMode === item.id
-                ? mode === 'light'
-                  ? 'bg-blue-50 text-blue-600'
-                  : 'bg-blue-500/10 text-blue-400'
+                ? ''
                 : mode === 'light'
-                  ? 'text-zinc-600 hover:bg-zinc-100'
-                  : 'text-zinc-400 hover:bg-zinc-800'
+                  ? 'hover:bg-zinc-100'
+                  : 'hover:bg-zinc-800'
             }`}
+            style={editMode === item.id ? {
+              backgroundColor: themeColor + '20',
+              color: themeColor
+            } : {
+              color: mode === 'light' ? '#52525b' : '#a1a1aa'
+            }}
             title={collapsed ? item.label : undefined}
           >
             {editMode === item.id && (
-              <span className={`absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 rounded-r-full ${
-                mode === 'light' ? 'bg-blue-500' : 'bg-blue-400'
-              }`} />
+              <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 rounded-r-full" 
+                style={{ backgroundColor: themeColor }} />
             )}
-            <span className={`shrink-0 ${
-              editMode === item.id ? 'text-blue-500' : ''
-            }`}>
+            <span className="shrink-0">
               {item.icon}
             </span>
             {!collapsed && (

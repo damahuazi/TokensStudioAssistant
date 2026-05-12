@@ -4,7 +4,7 @@ import { ThemeToggle } from '../preview/ThemeToggle';
 import { useTokenStore } from '../../stores/tokenStore';
 
 export const Header: React.FC = () => {
-  const { mode } = useTokenStore();
+  const { mode, themeColor } = useTokenStore();
   
   const handleExport = () => {
     const tokens = useTokenStore.getState().tokens;
@@ -15,6 +15,17 @@ export const Header: React.FC = () => {
     a.download = 'tokens.json';
     a.click();
     URL.revokeObjectURL(url);
+  };
+  
+  const getContrastColor = (hex: string): string => {
+    if (hex.length === 4) {
+      hex = '#' + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3];
+    }
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    const luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+    return luminance > 0.5 ? '#18181b' : '#ffffff';
   };
   
   return (
@@ -28,10 +39,10 @@ export const Header: React.FC = () => {
       <div className="flex items-center justify-between px-4 py-3">
         <div className="flex items-center gap-3">
           <div className="relative">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: themeColor }}>
+              <Sparkles className="w-5 h-5" style={{ color: getContrastColor(themeColor) }} />
             </div>
-            <div className="absolute -inset-1 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl blur opacity-30 -z-10" />
+            <div className="absolute -inset-1 rounded-xl blur opacity-30 -z-10" style={{ backgroundColor: themeColor }} />
           </div>
           <div>
             <h1 className={`text-xl font-bold tracking-tight ${
@@ -61,11 +72,8 @@ export const Header: React.FC = () => {
           <ThemeToggle />
           <button
             onClick={handleExport}
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 ${
-              mode === 'light'
-                ? 'bg-blue-50 text-blue-600 hover:bg-blue-100'
-                : 'bg-blue-500/10 text-blue-400 hover:bg-blue-500/20'
-            }`}
+            className="flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 hover:opacity-90"
+            style={{ backgroundColor: themeColor, color: getContrastColor(themeColor) }}
           >
             <Download className="w-4 h-4" />
             <span className="text-sm font-medium">Export</span>
