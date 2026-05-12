@@ -7,6 +7,7 @@ export const TypographyList: React.FC = () => {
   const fontSizes = tokens.global.fontSize;
   const fontWeights = tokens.global.fontWeight;
   const lineHeights = tokens.global.lineHeight;
+  const typography = tokens.typography;
 
   const fontSizeEntries = [
     { key: '12', label: '12px' },
@@ -22,8 +23,35 @@ export const TypographyList: React.FC = () => {
     { key: '64', label: '64px' },
   ];
 
+  const parseTypographyValue = (value: string) => {
+    const parts = value.split(' ');
+    return {
+      fontSize: parts[0]?.replace('{global.fontSize.', '').replace('}', '') || '16',
+      fontWeight: parts[1]?.replace('{global.fontWeight.', '').replace('}', '') || 'normal',
+      lineHeight: parts[2]?.replace('{global.lineHeight.', '').replace('}', '') || 'normal',
+    };
+  };
+
+  const getFontSizeValue = (key: string) => {
+    return fontSizes[key]?.value || '16px';
+  };
+
+  const getFontWeightValue = (key: string) => {
+    const weightMap: Record<string, string> = {
+      normal: '400',
+      medium: '500',
+      semibold: '600',
+      bold: '700',
+    };
+    return weightMap[key] || fontWeights[key]?.value || '400';
+  };
+
+  const getLineHeightValue = (key: string) => {
+    return lineHeights[key]?.value || '1.5';
+  };
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div className="space-y-4">
         <h3 className={`text-sm font-medium ${
           mode === 'light' ? 'text-zinc-900' : 'text-zinc-200'
@@ -145,11 +173,183 @@ export const TypographyList: React.FC = () => {
                   fontFamily: fontConfig.primaryFont,
                 }}
               >
-                The quick brown fox jumps over the lazy dog. Typography is the art and technique
-                of arranging type to make written language legible, readable, and appealing.
+                The quick brown fox jumps over the lazy dog.
               </p>
             </div>
           ))}
+        </div>
+      </div>
+
+      <div className="space-y-6">
+        <h3 className={`text-sm font-medium ${
+          mode === 'light' ? 'text-zinc-900' : 'text-zinc-200'
+        }`}>Typography Set</h3>
+
+        <div className="space-y-6">
+          <div className="space-y-3">
+            <h4 className={`text-xs uppercase tracking-wide ${
+              mode === 'light' ? 'text-zinc-500' : 'text-zinc-400'
+            }`}>Display</h4>
+            <div className="space-y-2">
+              {Object.entries(typography.display).map(([key, token]) => {
+                const parsed = parseTypographyValue(token.value);
+                return (
+                  <div
+                    key={key}
+                    className={`p-4 rounded-lg ${
+                      mode === 'light' ? 'bg-zinc-50' : 'bg-zinc-800/50'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <span className={`text-xs font-mono ${
+                        mode === 'light' ? 'text-zinc-600' : 'text-zinc-500'
+                      }`}>display.{key}</span>
+                      <span className={`text-xs font-mono ${
+                        mode === 'light' ? 'text-zinc-500' : 'text-zinc-400'
+                      }`}>
+                        {getFontSizeValue(parsed.fontSize)}
+                      </span>
+                    </div>
+                    <p
+                      className={mode === 'light' ? 'text-zinc-900' : 'text-zinc-100'}
+                      style={{
+                        fontSize: getFontSizeValue(parsed.fontSize),
+                        fontWeight: getFontWeightValue(parsed.fontWeight),
+                        lineHeight: getLineHeightValue(parsed.lineHeight),
+                        fontFamily: fontConfig.primaryFont,
+                      }}
+                    >
+                      The quick brown fox
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <h4 className={`text-xs uppercase tracking-wide ${
+              mode === 'light' ? 'text-zinc-500' : 'text-zinc-400'
+            }`}>Heading</h4>
+            <div className="space-y-2">
+              {Object.entries(typography.heading).map(([key, token]) => {
+                const parsed = parseTypographyValue(token.value);
+                return (
+                  <div
+                    key={key}
+                    className={`p-4 rounded-lg ${
+                      mode === 'light' ? 'bg-zinc-50' : 'bg-zinc-800/50'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <span className={`text-xs font-mono ${
+                        mode === 'light' ? 'text-zinc-600' : 'text-zinc-500'
+                      }`}>heading.{key}</span>
+                      <span className={`text-xs font-mono ${
+                        mode === 'light' ? 'text-zinc-500' : 'text-zinc-400'
+                      }`}>
+                        {getFontSizeValue(parsed.fontSize)}
+                      </span>
+                    </div>
+                    <p
+                      className={mode === 'light' ? 'text-zinc-900' : 'text-zinc-100'}
+                      style={{
+                        fontSize: getFontSizeValue(parsed.fontSize),
+                        fontWeight: getFontWeightValue(parsed.fontWeight),
+                        lineHeight: getLineHeightValue(parsed.lineHeight),
+                        fontFamily: fontConfig.primaryFont,
+                      }}
+                    >
+                      The quick brown fox
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <h4 className={`text-xs uppercase tracking-wide ${
+              mode === 'light' ? 'text-zinc-500' : 'text-zinc-400'
+            }`}>Body</h4>
+            <div className="space-y-2">
+              {Object.entries(typography.body).map(([key, token]) => {
+                const parsed = parseTypographyValue(token.value);
+                return (
+                  <div
+                    key={key}
+                    className={`p-4 rounded-lg ${
+                      mode === 'light' ? 'bg-zinc-50' : 'bg-zinc-800/50'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <span className={`text-xs font-mono ${
+                        mode === 'light' ? 'text-zinc-600' : 'text-zinc-500'
+                      }`}>body.{key}</span>
+                      <span className={`text-xs font-mono ${
+                        mode === 'light' ? 'text-zinc-500' : 'text-zinc-400'
+                      }`}>
+                        {getFontSizeValue(parsed.fontSize)}
+                      </span>
+                    </div>
+                    <p
+                      className={mode === 'light' ? 'text-zinc-800' : 'text-zinc-200'}
+                      style={{
+                        fontSize: getFontSizeValue(parsed.fontSize),
+                        fontWeight: getFontWeightValue(parsed.fontWeight),
+                        lineHeight: getLineHeightValue(parsed.lineHeight),
+                        fontFamily: fontConfig.primaryFont,
+                      }}
+                    >
+                      The quick brown fox jumps over the lazy dog. Typography is the art and technique
+                      of arranging type to make written language legible, readable, and appealing.
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <h4 className={`text-xs uppercase tracking-wide ${
+              mode === 'light' ? 'text-zinc-500' : 'text-zinc-400'
+            }`}>Label</h4>
+            <div className="space-y-2">
+              {Object.entries(typography.label).map(([key, token]) => {
+                const parsed = parseTypographyValue(token.value);
+                return (
+                  <div
+                    key={key}
+                    className={`p-4 rounded-lg ${
+                      mode === 'light' ? 'bg-zinc-50' : 'bg-zinc-800/50'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <span className={`text-xs font-mono ${
+                        mode === 'light' ? 'text-zinc-600' : 'text-zinc-500'
+                      }`}>label.{key}</span>
+                      <span className={`text-xs font-mono ${
+                        mode === 'light' ? 'text-zinc-500' : 'text-zinc-400'
+                      }`}>
+                        {getFontSizeValue(parsed.fontSize)}
+                      </span>
+                    </div>
+                    <p
+                      className={mode === 'light' ? 'text-zinc-900' : 'text-zinc-100'}
+                      style={{
+                        fontSize: getFontSizeValue(parsed.fontSize),
+                        fontWeight: getFontWeightValue(parsed.fontWeight),
+                        lineHeight: getLineHeightValue(parsed.lineHeight),
+                        fontFamily: fontConfig.primaryFont,
+                      }}
+                    >
+                      Submit
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
     </div>
