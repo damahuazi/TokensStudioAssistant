@@ -44,20 +44,12 @@ export const generateColorScale = (
   
   const scaleKeys = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'];
   
-  // 找到与输入颜色最接近的色阶位置
-  let closestIndex = 5; // 默认 500
-  let minDiff = Math.abs(lightnessSteps[5] - baseL);
-  for (let i = 0; i < lightnessSteps.length; i++) {
-    const diff = Math.abs(lightnessSteps[i] - baseL);
-    if (diff < minDiff) {
-      minDiff = diff;
-      closestIndex = i;
-    }
-  }
+  // 始终将输入的主题色放在 500 位置（索引 5）
+  const baseIndex = 5; // 500
   
   for (let i = 0; i < Math.min(count, 11); i++) {
-    if (i === closestIndex) {
-      // 在最接近的位置直接使用输入的颜色
+    if (i === baseIndex) {
+      // 在 500 位置直接使用输入的颜色
       scale[scaleKeys[i]] = baseHex;
     } else {
       const targetL = lightnessSteps[i];
