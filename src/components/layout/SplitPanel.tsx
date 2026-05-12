@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { useTokenStore } from '../../stores/tokenStore';
 
 interface SplitPanelProps {
   top: React.ReactNode;
@@ -12,8 +13,10 @@ export const SplitPanel: React.FC<SplitPanelProps> = ({
   initialRatio = 0.6 
 }) => {
   const [ratio, setRatio] = useState(initialRatio);
+  const [isHovered, setIsHovered] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const isDraggingRef = useRef(false);
+  const { mode } = useTokenStore();
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     isDraggingRef.current = true;
@@ -54,15 +57,18 @@ export const SplitPanel: React.FC<SplitPanelProps> = ({
       </div>
       
       <div 
-        className="flex items-center justify-center h-1 cursor-ns-resize select-none bg-gradient-to-r from-transparent via-zinc-400 to-transparent"
+        className={`cursor-ns-resize select-none transition-all duration-150 ${
+          isHovered ? 'h-2' : 'h-1'
+        }`}
         onMouseDown={handleMouseDown}
-      >
-        <div className="flex gap-0.5 p-1 rounded bg-zinc-400/50">
-          <div className="w-1 h-3 rounded-full bg-zinc-600" />
-          <div className="w-1 h-3 rounded-full bg-zinc-600" />
-          <div className="w-1 h-3 rounded-full bg-zinc-600" />
-        </div>
-      </div>
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        style={{
+          backgroundColor: isHovered 
+            ? (mode === 'light' ? '#3b82f6' : '#60a5fa')
+            : (mode === 'light' ? '#d1d5db' : '#4b5563'),
+        }}
+      />
       
       <div 
         className="overflow-y-auto"
