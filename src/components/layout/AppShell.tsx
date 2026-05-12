@@ -11,12 +11,11 @@ export const AppShell: React.FC = () => {
     <div className={`h-screen flex flex-col overflow-hidden transition-colors duration-300 ${
       mode === 'light' ? 'bg-white' : 'bg-zinc-950'
     }`}>
-      <div className="flex-1 flex">
-        <div className="shrink-0 overflow-hidden">
-          <Sidebar />
-        </div>
+      <div className="flex-1 flex min-h-0">
+        <Sidebar />
         
-        <div className="w-80 shrink-0 overflow-y-auto">
+        <div className="w-80 shrink-0 overflow-y-auto border-r transition-colors duration-300"
+          style={{ borderColor: mode === 'light' ? '#e5e7eb' : '#3f3f46' }}>
           <div className="p-4 space-y-4">
             <ConfigPanel />
           </div>

@@ -20,7 +20,7 @@ export const Sidebar: React.FC = () => {
   ];
 
   return (
-    <aside className={`h-full flex flex-col border-r transition-all duration-300 ${
+    <aside className={`shrink-0 flex flex-col border-r transition-all duration-300 ${
       mode === 'light' 
         ? 'border-zinc-200 bg-white/50' 
         : 'border-zinc-800 bg-zinc-900/50'
