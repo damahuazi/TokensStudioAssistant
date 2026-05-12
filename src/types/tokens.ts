@@ -29,48 +29,43 @@ export interface RadiusTokens {
   [key: string]: TokenValue;
 }
 
-export interface GlobalTokens {
-  color: ColorPrimitives;
-  typography: TypographyTokens;
-  spacing: SpacingTokens;
-  radius: RadiusTokens;
-}
-
-export interface SemanticTokens {
-  [theme: string]: {
-    background?: {
-      [key: string]: TokenValue;
-    };
-    foreground?: {
-      [key: string]: TokenValue;
-    };
-    border?: {
-      [key: string]: TokenValue;
-    };
-    accent?: {
-      [key: string]: TokenValue;
-    };
-    status?: {
-      [key: string]: TokenValue;
-    };
-  };
-}
-
-export interface ComponentTokens {
-  input: {
+export interface ThemeSet {
+  background?: {
     [key: string]: TokenValue;
   };
-  button: {
-    [variant: string]: {
-      [key: string]: TokenValue;
-    };
+  foreground?: {
+    [key: string]: TokenValue;
+  };
+  border?: {
+    [key: string]: TokenValue;
+  };
+  accent?: {
+    [key: string]: TokenValue;
+  };
+  status?: {
+    [key: string]: TokenValue;
   };
 }
 
 export interface GeneratedTokens {
-  global: GlobalTokens;
-  semantic: SemanticTokens;
-  components: ComponentTokens;
+  global: {
+    color: ColorPrimitives;
+    typography: TypographyTokens;
+    spacing: SpacingTokens;
+    radius: RadiusTokens;
+  };
+  light: ThemeSet;
+  dark: ThemeSet;
+  components: {
+    input: {
+      [key: string]: TokenValue;
+    };
+    button: {
+      [variant: string]: {
+        [key: string]: TokenValue;
+      };
+    };
+  };
 }
 
 export interface FontConfig {

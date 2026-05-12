@@ -6,23 +6,29 @@ export const hexToOklch = (hex: string): { l: number; c: number; h: number } => 
   
   const oklchColor = oklch(color);
   return {
-    l: oklchColor.l || 0,
-    c: oklchColor.c || 0,
-    h: oklchColor.h || 0,
+    l: oklchColor.l ?? 0,
+    c: oklchColor.c ?? 0,
+    h: oklchColor.h ?? 0,
   };
 };
 
 export const oklchToHex = (l: number, c: number, h: number): string => {
-  const color = { mode: 'oklch' as const, l, c, h };
-  const toRgb = converter('rgb');
-  const rgbColor = toRgb(color);
-  if (!rgbColor) return '#000000';
-  
-  const r = Math.round((rgbColor.r || 0) * 255);
-  const g = Math.round((rgbColor.g || 0) * 255);
-  const b = Math.round((rgbColor.b || 0) * 255);
-  
-  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+  try {
+    const color = { mode: 'oklch' as const, l, c, h };
+    const toRgb = converter('rgb');
+    const rgbColor = toRgb(color);
+    
+    if (!rgbColor) return '#000000';
+    
+    const clamp = (val: number) => Math.max(0, Math.min(1, val));
+    const r = Math.round(clamp(rgbColor.r ?? 0) * 255);
+    const g = Math.round(clamp(rgbColor.g ?? 0) * 255);
+    const b = Math.round(clamp(rgbColor.b ?? 0) * 255);
+    
+    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+  } catch {
+    return '#000000';
+  }
 };
 
 export const generateColorScale = (
@@ -84,7 +90,7 @@ export const generateSemanticColor = (
   ];
   
   const scaleKeys = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'];
-  const newH = (h + hueShift) % 360;
+  const newH = (h + hueShift + 360) % 360;
   
   for (let i = 0; i < Math.min(count, 10); i++) {
     const targetL = lightnessSteps[i];
@@ -97,7 +103,6 @@ export const generateSemanticColor = (
 };
 
 export const generateSuccessScale = (baseHex: string, count: number = 10) => {
-  const { l, c } = hexToOklch(baseHex);
   return generateSemanticColor(baseHex, 140, 0.8, count);
 };
 

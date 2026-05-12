@@ -6,32 +6,38 @@ export const InputDemo: React.FC = () => {
   const [focused, setFocused] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
-  const semantic = tokens.semantic[mode];
+  const themeSet = tokens[mode];
   const global = tokens.global;
 
-  const getResolvedValue = (tokenPath: string): string => {
-    const parts = tokenPath.replace(/[{}]/g, '').split('.');
-    let value: any = tokens;
-    for (const part of parts) {
-      value = value?.[part];
+  // Helper function to resolve token references
+  const resolveToken = (path: string): string => {
+    if (!path.startsWith('{') || !path.endsWith('}')) {
+      return path;
     }
-    return typeof value === 'string' ? value : value?.value || tokenPath;
+    const keyPath = path.slice(1, -1).split('.');
+    let value: any = tokens;
+    for (const key of keyPath) {
+      if (value && value[key]) {
+        value = value[key];
+      } else {
+        return path;
+      }
+    }
+    return value?.value ?? path;
   };
 
   const inputStyles = {
     backgroundColor: disabled
-      ? getResolvedValue('{global.color.neutral.100}')
-      : semantic.background?.primary?.value
-        ? getResolvedValue(semantic.background.primary.value)
-        : '#fafafa',
+      ? resolveToken(global.color.neutral['100'].value)
+      : resolveToken(themeSet.background?.primary?.value || '#ffffff'),
     borderColor: focused
-      ? getResolvedValue(semantic.border?.focus?.value || '{global.color.brand.500}')
+      ? resolveToken(themeSet.border?.focus?.value || global.color.brand['500'].value)
       : disabled
-        ? getResolvedValue('{global.color.neutral.200}')
-        : getResolvedValue(semantic.border?.default?.value || '{global.color.neutral.200}'),
+        ? resolveToken(global.color.neutral['200'].value)
+        : resolveToken(themeSet.border?.default?.value || global.color.neutral['200'].value),
     color: disabled
-      ? getResolvedValue('{global.color.neutral.400}')
-      : getResolvedValue(semantic.foreground?.primary?.value || '{global.color.neutral.900}'),
+      ? resolveToken(global.color.neutral['400'].value)
+      : resolveToken(themeSet.foreground?.primary?.value || global.color.neutral['900'].value),
     fontSize: global.typography.fontSize.base.value,
     borderRadius: global.radius.md.value,
     padding: `${global.spacing.sm.value} ${global.spacing.md.value}`,
