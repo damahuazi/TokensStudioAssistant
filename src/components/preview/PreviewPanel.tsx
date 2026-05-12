@@ -62,8 +62,8 @@ export const PreviewPanel: React.FC = () => {
         </div>
       )}
 
-      <div className="flex-1 overflow-y-auto min-h-0">
-        <div className="p-4">
+      <div className="flex-1 overflow-y-auto min-h-0 p-0">
+        <div className="py-4">
           {editMode === 'color' ? (
             renderColorPreview()
           ) : (
