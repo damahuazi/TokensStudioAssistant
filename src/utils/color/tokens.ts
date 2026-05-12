@@ -56,9 +56,12 @@ export const generateTokens = (
       loose: createTokenValue('1.75', 'lineHeights'),
     },
     color: {
-      brand: Object.fromEntries(
-        colorScaleKeys.map((key) => [key, createTokenValue(brandScale[key], 'color')])
-      ),
+      brand: {
+        ...Object.fromEntries(
+          colorScaleKeys.map((key) => [key, createTokenValue(brandScale[key], 'color')])
+        ),
+        base: createTokenValue(themeColor, 'color'),
+      },
       neutral: Object.fromEntries(
         colorScaleKeys.map((key) => [key, createTokenValue(neutralScale[key], 'color')])
       ),
@@ -155,13 +158,13 @@ export const generateTokens = (
       canvas: createTokenValue('{global.color.neutral.50}', 'color'),
       default: createTokenValue('{global.color.neutral.50}', 'color'),
       subtle: createTokenValue('{global.color.neutral.100}', 'color'),
-      brand: createTokenValue('{global.color.brand.500}', 'color'),
+      brand: createTokenValue('{global.color.brand.base}', 'color'),
       brandSubtle: createTokenValue('{global.color.brand.50}', 'color'),
     },
     border: {
       default: createTokenValue('{global.color.neutral.200}', 'color'),
       strong: createTokenValue('{global.color.neutral.300}', 'color'),
-      brand: createTokenValue('{global.color.brand.500}', 'color'),
+      brand: createTokenValue('{global.color.brand.base}', 'color'),
       error: createTokenValue('{global.color.error.500}', 'color'),
       disabled: createTokenValue('{global.color.neutral.200}', 'color'),
     },
@@ -185,13 +188,13 @@ export const generateTokens = (
       canvas: createTokenValue('{global.color.neutral.950}', 'color'),
       default: createTokenValue('{global.color.neutral.900}', 'color'),
       subtle: createTokenValue('{global.color.neutral.800}', 'color'),
-      brand: createTokenValue('{global.color.brand.400}', 'color'),
+      brand: createTokenValue('{global.color.brand.base}', 'color'),
       brandSubtle: createTokenValue('{global.color.brand.900}', 'color'),
     },
     border: {
       default: createTokenValue('{global.color.neutral.700}', 'color'),
       strong: createTokenValue('{global.color.neutral.600}', 'color'),
-      brand: createTokenValue('{global.color.brand.400}', 'color'),
+      brand: createTokenValue('{global.color.brand.base}', 'color'),
       error: createTokenValue('{global.color.error.400}', 'color'),
       disabled: createTokenValue('{global.color.neutral.700}', 'color'),
     },
