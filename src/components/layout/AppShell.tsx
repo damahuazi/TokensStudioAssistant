@@ -8,7 +8,7 @@ export const AppShell: React.FC = () => {
   const { mode } = useTokenStore();
   
   return (
-    <div className="flex min-h-full">
+    <div className="flex h-full">
       <Sidebar />
       
       <div className="w-80 shrink-0 overflow-y-auto border-r transition-colors duration-300"
