@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTokenStore } from '../../stores/tokenStore';
 
 type TabType = 'basics' | 'typography';
 
-export const TypographyList: React.FC = () => {
-  const { tokens, fontConfig, mode, themeColor } = useTokenStore();
-  const [activeTab, setActiveTab] = useState<TabType>('basics');
+interface TypographyListProps {
+  activeTab: TabType;
+}
+
+export const TypographyList: React.FC<TypographyListProps> = ({ activeTab }) => {
+  const { tokens, fontConfig, mode } = useTokenStore();
 
   const fontSizes = tokens.global.fontSize;
   const fontWeights = tokens.global.fontWeight;
@@ -339,45 +342,5 @@ export const TypographyList: React.FC = () => {
     </div>
   );
 
-  return (
-    <div className="space-y-6">
-      <div className="flex gap-1 border-b transition-colors duration-300"
-        style={{ borderColor: mode === 'light' ? '#e5e7eb' : '#3f3f46' }}>
-        <button
-          onClick={() => setActiveTab('basics')}
-          className={`px-4 py-3 text-sm font-medium transition-all duration-200 border-b-2 -mb-px ${
-            activeTab === 'basics'
-              ? ''
-              : mode === 'light'
-              ? 'text-zinc-500 hover:text-zinc-700 border-transparent'
-              : 'text-zinc-400 hover:text-zinc-200 border-transparent'
-          }`}
-          style={{
-            color: activeTab === 'basics' ? themeColor : undefined,
-            borderColor: activeTab === 'basics' ? themeColor : undefined,
-          }}
-        >
-          Basics
-        </button>
-        <button
-          onClick={() => setActiveTab('typography')}
-          className={`px-4 py-3 text-sm font-medium transition-all duration-200 border-b-2 -mb-px ${
-            activeTab === 'typography'
-              ? ''
-              : mode === 'light'
-              ? 'text-zinc-500 hover:text-zinc-700 border-transparent'
-              : 'text-zinc-400 hover:text-zinc-200 border-transparent'
-          }`}
-          style={{
-            color: activeTab === 'typography' ? themeColor : undefined,
-            borderColor: activeTab === 'typography' ? themeColor : undefined,
-          }}
-        >
-          Typography Set
-        </button>
-      </div>
-
-      {activeTab === 'basics' ? renderBasicsTab() : renderTypographyTab()}
-    </div>
-  );
+  return activeTab === 'basics' ? renderBasicsTab() : renderTypographyTab();
 };
