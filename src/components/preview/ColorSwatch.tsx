@@ -7,6 +7,7 @@ interface ColorSwatchProps {
   onClick?: () => void;
   isSelected?: boolean;
   isBaseColor?: boolean;
+  reference?: string;
 }
 
 export const ColorSwatch: React.FC<ColorSwatchProps> = ({
@@ -16,6 +17,7 @@ export const ColorSwatch: React.FC<ColorSwatchProps> = ({
   onClick,
   isSelected = false,
   isBaseColor = false,
+  reference,
 }) => {
   const getContrastColor = (hex: string): string => {
     // Handle 3-digit hex
@@ -70,6 +72,14 @@ export const ColorSwatch: React.FC<ColorSwatchProps> = ({
           >
             {color.toUpperCase()}
           </p>
+          {reference && (
+            <p 
+              className="text-[10px] font-mono mt-1 opacity-80" 
+              style={{ color: textColor }}
+            >
+              {reference}
+            </p>
+          )}
         </div>
       </div>
     </button>

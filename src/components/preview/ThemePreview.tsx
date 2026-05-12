@@ -60,12 +60,16 @@ export const ThemePreview: React.FC<ThemePreviewProps> = ({ mode: previewMode })
           if (!token) return null;
           
           const resolvedColor = resolveToken(token.value);
+          const referencePath = token.value.startsWith('{') && token.value.endsWith('}') 
+            ? token.value.slice(1, -1) 
+            : undefined;
           return (
             <ColorSwatch
               key={`${previewMode}-${key}`}
               color={resolvedColor}
               name={label}
               scale={description}
+              reference={referencePath}
             />
           );
         })}
