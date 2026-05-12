@@ -35,7 +35,7 @@ export const generateColorScale = (
   baseHex: string,
   count: number = 11
 ): { [key: string]: string } => {
-  const { l, c, h } = hexToOklch(baseHex);
+  const { l: baseL, c: baseC, h: baseH } = hexToOklch(baseHex);
   const scale: { [key: string]: string } = {};
   
   const lightnessSteps = [
@@ -44,12 +44,27 @@ export const generateColorScale = (
   
   const scaleKeys = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'];
   
+  // 找到与输入颜色最接近的色阶位置
+  let closestIndex = 5; // 默认 500
+  let minDiff = Math.abs(lightnessSteps[5] - baseL);
+  for (let i = 0; i < lightnessSteps.length; i++) {
+    const diff = Math.abs(lightnessSteps[i] - baseL);
+    if (diff < minDiff) {
+      minDiff = diff;
+      closestIndex = i;
+    }
+  }
+  
   for (let i = 0; i < Math.min(count, 11); i++) {
-    const targetL = lightnessSteps[i];
-    const diffL = targetL - l;
-    const newC = Math.max(0, c * (1 - Math.abs(diffL) * 0.3));
-    
-    scale[scaleKeys[i]] = oklchToHex(targetL, newC, h);
+    if (i === closestIndex) {
+      // 在最接近的位置直接使用输入的颜色
+      scale[scaleKeys[i]] = baseHex;
+    } else {
+      const targetL = lightnessSteps[i];
+      const diffL = targetL - baseL;
+      const newC = Math.max(0, baseC * (1 - Math.abs(diffL) * 0.3));
+      scale[scaleKeys[i]] = oklchToHex(targetL, newC, baseH);
+    }
   }
   
   return scale;
