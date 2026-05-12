@@ -96,25 +96,26 @@ export const generateTokens = (
   };
 
   const light: GeneratedTokens['light'] = {
-    background: {
-      primary: createTokenValue('{global.color.neutral.50}', 'color'),
-      secondary: createTokenValue('{global.color.neutral.100}', 'color'),
-      tertiary: createTokenValue('{global.color.neutral.200}', 'color'),
-    },
-    foreground: {
-      primary: createTokenValue('{global.color.neutral.900}', 'color'),
-      secondary: createTokenValue('{global.color.neutral.600}', 'color'),
-      muted: createTokenValue('{global.color.neutral.500}', 'color'),
+    surface: {
+      canvas: createTokenValue('{global.color.neutral.50}', 'color'),
+      default: createTokenValue('{global.color.neutral.50}', 'color'),
+      subtle: createTokenValue('{global.color.neutral.100}', 'color'),
+      brand: createTokenValue('{global.color.brand.500}', 'color'),
+      brandSubtle: createTokenValue('{global.color.brand.50}', 'color'),
     },
     border: {
       default: createTokenValue('{global.color.neutral.200}', 'color'),
-      hover: createTokenValue('{global.color.neutral.300}', 'color'),
-      focus: createTokenValue('{global.color.brand.500}', 'color'),
+      strong: createTokenValue('{global.color.neutral.300}', 'color'),
+      brand: createTokenValue('{global.color.brand.500}', 'color'),
+      error: createTokenValue('{global.color.error.500}', 'color'),
+      disabled: createTokenValue('{global.color.neutral.200}', 'color'),
     },
-    accent: {
-      default: createTokenValue('{global.color.brand.500}', 'color'),
-      hover: createTokenValue('{global.color.brand.600}', 'color'),
-      foreground: createTokenValue('#ffffff', 'color'),
+    text: {
+      primary: createTokenValue('{global.color.neutral.900}', 'color'),
+      secondary: createTokenValue('{global.color.neutral.600}', 'color'),
+      placeholder: createTokenValue('{global.color.neutral.400}', 'color'),
+      onBrand: createTokenValue('#ffffff', 'color'),
+      error: createTokenValue('{global.color.error.500}', 'color'),
     },
     status: {
       success: createTokenValue('{global.color.success.500}', 'color'),
@@ -125,25 +126,26 @@ export const generateTokens = (
   };
 
   const dark: GeneratedTokens['dark'] = {
-    background: {
-      primary: createTokenValue('{global.color.neutral.900}', 'color'),
-      secondary: createTokenValue('{global.color.neutral.800}', 'color'),
-      tertiary: createTokenValue('{global.color.neutral.700}', 'color'),
-    },
-    foreground: {
-      primary: createTokenValue('{global.color.neutral.50}', 'color'),
-      secondary: createTokenValue('{global.color.neutral.400}', 'color'),
-      muted: createTokenValue('{global.color.neutral.500}', 'color'),
+    surface: {
+      canvas: createTokenValue('{global.color.neutral.950}', 'color'),
+      default: createTokenValue('{global.color.neutral.900}', 'color'),
+      subtle: createTokenValue('{global.color.neutral.800}', 'color'),
+      brand: createTokenValue('{global.color.brand.400}', 'color'),
+      brandSubtle: createTokenValue('{global.color.brand.900}', 'color'),
     },
     border: {
       default: createTokenValue('{global.color.neutral.700}', 'color'),
-      hover: createTokenValue('{global.color.neutral.600}', 'color'),
-      focus: createTokenValue('{global.color.brand.400}', 'color'),
+      strong: createTokenValue('{global.color.neutral.500}', 'color'),
+      brand: createTokenValue('{global.color.brand.400}', 'color'),
+      error: createTokenValue('{global.color.error.400}', 'color'),
+      disabled: createTokenValue('{global.color.neutral.700}', 'color'),
     },
-    accent: {
-      default: createTokenValue('{global.color.brand.400}', 'color'),
-      hover: createTokenValue('{global.color.brand.300}', 'color'),
-      foreground: createTokenValue('{global.color.neutral.900}', 'color'),
+    text: {
+      primary: createTokenValue('{global.color.neutral.50}', 'color'),
+      secondary: createTokenValue('{global.color.neutral.400}', 'color'),
+      placeholder: createTokenValue('{global.color.neutral.500}', 'color'),
+      onBrand: createTokenValue('{global.color.neutral.900}', 'color'),
+      error: createTokenValue('{global.color.error.400}', 'color'),
     },
     status: {
       success: createTokenValue('{global.color.success.400}', 'color'),
@@ -155,12 +157,12 @@ export const generateTokens = (
 
   const components: GeneratedTokens['components'] = {
     input: {
-      background: createTokenValue('{light.background.primary}', 'color'),
+      background: createTokenValue('{light.surface.default}', 'color'),
       border: createTokenValue('{light.border.default}', 'color'),
-      borderHover: createTokenValue('{light.border.hover}', 'color'),
-      borderFocus: createTokenValue('{light.border.focus}', 'color'),
-      placeholder: createTokenValue('{light.foreground.muted}', 'color'),
-      foreground: createTokenValue('{light.foreground.primary}', 'color'),
+      borderHover: createTokenValue('{light.border.strong}', 'color'),
+      borderFocus: createTokenValue('{light.border.brand}', 'color'),
+      placeholder: createTokenValue('{light.text.placeholder}', 'color'),
+      foreground: createTokenValue('{light.text.primary}', 'color'),
       radius: createTokenValue('{global.radius.md}', 'borderRadius'),
       paddingX: createTokenValue('{global.spacing.md}', 'spacing'),
       paddingY: createTokenValue('{global.spacing.sm}', 'spacing'),
@@ -168,9 +170,9 @@ export const generateTokens = (
     },
     button: {
       primary: {
-        background: createTokenValue('{light.accent.default}', 'color'),
-        backgroundHover: createTokenValue('{light.accent.hover}', 'color'),
-        foreground: createTokenValue('{light.accent.foreground}', 'color'),
+        background: createTokenValue('{light.surface.brand}', 'color'),
+        backgroundHover: createTokenValue('{global.color.brand.600}', 'color'),
+        foreground: createTokenValue('{light.text.onBrand}', 'color'),
         borderRadius: createTokenValue('{global.radius.md}', 'borderRadius'),
         paddingX: createTokenValue('{global.spacing.lg}', 'spacing'),
         paddingY: createTokenValue('{global.spacing.sm}', 'spacing'),
@@ -178,9 +180,9 @@ export const generateTokens = (
         fontWeight: createTokenValue('{global.typography.fontWeight.medium}', 'fontWeight'),
       },
       secondary: {
-        background: createTokenValue('{light.background.secondary}', 'color'),
-        backgroundHover: createTokenValue('{light.background.tertiary}', 'color'),
-        foreground: createTokenValue('{light.foreground.primary}', 'color'),
+        background: createTokenValue('{light.surface.default}', 'color'),
+        backgroundHover: createTokenValue('{light.surface.subtle}', 'color'),
+        foreground: createTokenValue('{light.text.primary}', 'color'),
         borderRadius: createTokenValue('{global.radius.md}', 'borderRadius'),
         paddingX: createTokenValue('{global.spacing.lg}', 'spacing'),
         paddingY: createTokenValue('{global.spacing.sm}', 'spacing'),
@@ -189,8 +191,8 @@ export const generateTokens = (
       },
       ghost: {
         background: createTokenValue('transparent', 'color'),
-        backgroundHover: createTokenValue('{light.background.secondary}', 'color'),
-        foreground: createTokenValue('{light.foreground.primary}', 'color'),
+        backgroundHover: createTokenValue('{light.surface.subtle}', 'color'),
+        foreground: createTokenValue('{light.text.primary}', 'color'),
         borderRadius: createTokenValue('{global.radius.md}', 'borderRadius'),
         paddingX: createTokenValue('{global.spacing.lg}', 'spacing'),
         paddingY: createTokenValue('{global.spacing.sm}', 'spacing'),

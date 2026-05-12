@@ -7,7 +7,6 @@ export const ButtonDemo: React.FC = () => {
   const themeSet = tokens[mode];
   const global = tokens.global;
 
-  // Helper function to resolve token references
   const resolveToken = (path: string): string => {
     if (!path.startsWith('{') || !path.endsWith('}')) {
       return path;
@@ -32,11 +31,30 @@ export const ButtonDemo: React.FC = () => {
 
   const getButtonStyle = (variant: 'primary' | 'secondary' | 'ghost', hover = false) => {
     const variantTokens = tokens.components.button[variant];
+    
+    let backgroundColor: string;
+    let foregroundColor: string;
+    
+    if (variant === 'primary') {
+      backgroundColor = hover
+        ? resolveToken(variantTokens.backgroundHover.value)
+        : resolveToken(variantTokens.background.value);
+      foregroundColor = resolveToken(themeSet.text?.onBrand?.value || '#ffffff');
+    } else if (variant === 'secondary') {
+      backgroundColor = hover
+        ? resolveToken(themeSet.surface?.subtle?.value || '#f4f4f5')
+        : resolveToken(themeSet.surface?.default?.value || '#ffffff');
+      foregroundColor = resolveToken(themeSet.text?.primary?.value || '#18181b');
+    } else {
+      backgroundColor = hover
+        ? resolveToken(themeSet.surface?.subtle?.value || '#f4f4f5')
+        : 'transparent';
+      foregroundColor = resolveToken(themeSet.text?.primary?.value || '#18181b');
+    }
+
     return {
-      backgroundColor: resolveToken(
-        hover ? variantTokens.backgroundHover.value : variantTokens.background.value
-      ),
-      color: resolveToken(variantTokens.foreground.value),
+      backgroundColor,
+      color: foregroundColor,
       borderRadius: resolveToken(variantTokens.borderRadius.value),
       padding: `${resolveToken(variantTokens.paddingY.value)} ${resolveToken(variantTokens.paddingX.value)}`,
       fontSize: resolveToken(variantTokens.fontSize.value),
@@ -56,7 +74,7 @@ export const ButtonDemo: React.FC = () => {
               style={getButtonStyle(key)}
               onMouseEnter={(e) => Object.assign(e.currentTarget.style, getButtonStyle(key, true))}
               onMouseLeave={(e) => Object.assign(e.currentTarget.style, getButtonStyle(key))}
-              className="transition-all duration-200 hover:scale-105 active:scale-95"
+              className="transition-all duration-200 hover:scale-105 active:scale-95 border border-transparent"
             >
               {label}
             </button>
@@ -73,7 +91,7 @@ export const ButtonDemo: React.FC = () => {
               style={getButtonStyle(key)}
               onMouseEnter={(e) => Object.assign(e.currentTarget.style, getButtonStyle(key, true))}
               onMouseLeave={(e) => Object.assign(e.currentTarget.style, getButtonStyle(key))}
-              className="flex items-center gap-2 transition-all duration-200 hover:scale-105 active:scale-95"
+              className="flex items-center gap-2 transition-all duration-200 hover:scale-105 active:scale-95 border border-transparent"
             >
               <svg
                 className="w-4 h-4"

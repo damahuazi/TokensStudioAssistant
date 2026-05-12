@@ -9,7 +9,6 @@ export const InputDemo: React.FC = () => {
   const themeSet = tokens[mode];
   const global = tokens.global;
 
-  // Helper function to resolve token references
   const resolveToken = (path: string): string => {
     if (!path.startsWith('{') || !path.endsWith('}')) {
       return path;
@@ -26,21 +25,25 @@ export const InputDemo: React.FC = () => {
     return value?.value ?? path;
   };
 
-  const inputStyles = {
-    backgroundColor: disabled
-      ? resolveToken(global.color.neutral['100'].value)
-      : resolveToken(themeSet.background?.primary?.value || '#ffffff'),
-    borderColor: focused
-      ? resolveToken(themeSet.border?.focus?.value || global.color.brand['500'].value)
-      : disabled
-        ? resolveToken(global.color.neutral['200'].value)
-        : resolveToken(themeSet.border?.default?.value || global.color.neutral['200'].value),
-    color: disabled
-      ? resolveToken(global.color.neutral['400'].value)
-      : resolveToken(themeSet.foreground?.primary?.value || global.color.neutral['900'].value),
-    fontSize: global.typography.fontSize.base.value,
-    borderRadius: global.radius.md.value,
-    padding: `${global.spacing.sm.value} ${global.spacing.md.value}`,
+  const getInputStyles = () => {
+    const baseStyles = {
+      backgroundColor: disabled
+        ? resolveToken(global.color.neutral['100'].value)
+        : resolveToken(themeSet.surface?.default?.value || '#ffffff'),
+      borderColor: focused
+        ? resolveToken(themeSet.border?.brand?.value || global.color.brand['500'].value)
+        : disabled
+          ? resolveToken(themeSet.border?.disabled?.value || global.color.neutral['200'].value)
+          : resolveToken(themeSet.border?.default?.value || global.color.neutral['200'].value),
+      color: disabled
+        ? resolveToken(global.color.neutral['400'].value)
+        : resolveToken(themeSet.text?.primary?.value || global.color.neutral['900'].value),
+      fontSize: global.typography.fontSize.base.value,
+      borderRadius: global.radius.md.value,
+      padding: `${global.spacing.sm.value} ${global.spacing.md.value}`,
+    };
+
+    return baseStyles;
   };
 
   return (
@@ -67,8 +70,8 @@ export const InputDemo: React.FC = () => {
             disabled={disabled}
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
-            className="w-full border transition-all duration-200 outline-none"
-            style={inputStyles}
+            className="w-full border-2 transition-all duration-200 outline-none"
+            style={getInputStyles()}
           />
         </div>
 
@@ -82,8 +85,8 @@ export const InputDemo: React.FC = () => {
               disabled={disabled}
               onFocus={() => setFocused(true)}
               onBlur={() => setFocused(false)}
-              className="w-full border transition-all duration-200 outline-none"
-              style={inputStyles}
+              className="w-full border-2 transition-all duration-200 outline-none"
+              style={getInputStyles()}
             />
           </div>
         </div>
@@ -97,8 +100,8 @@ export const InputDemo: React.FC = () => {
               disabled={disabled}
               onFocus={() => setFocused(true)}
               onBlur={() => setFocused(false)}
-              className="w-full border transition-all duration-200 outline-none"
-              style={inputStyles}
+              className="w-full border-2 transition-all duration-200 outline-none"
+              style={getInputStyles()}
             />
             <p className="text-xs text-zinc-500">
               3-20 characters, letters and numbers only

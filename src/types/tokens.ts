@@ -30,20 +30,36 @@ export interface RadiusTokens {
 }
 
 export interface ThemeSet {
-  background?: {
-    [key: string]: TokenValue;
-  };
-  foreground?: {
-    [key: string]: TokenValue;
+  surface?: {
+    canvas?: TokenValue;
+    default?: TokenValue;
+    subtle?: TokenValue;
+    brand?: TokenValue;
+    brandSubtle?: TokenValue;
+    [key: string]: TokenValue | undefined;
   };
   border?: {
-    [key: string]: TokenValue;
+    default?: TokenValue;
+    strong?: TokenValue;
+    brand?: TokenValue;
+    error?: TokenValue;
+    disabled?: TokenValue;
+    [key: string]: TokenValue | undefined;
   };
-  accent?: {
-    [key: string]: TokenValue;
+  text?: {
+    primary?: TokenValue;
+    secondary?: TokenValue;
+    placeholder?: TokenValue;
+    onBrand?: TokenValue;
+    error?: TokenValue;
+    [key: string]: TokenValue | undefined;
   };
   status?: {
-    [key: string]: TokenValue;
+    success?: TokenValue;
+    warning?: TokenValue;
+    error?: TokenValue;
+    info?: TokenValue;
+    [key: string]: TokenValue | undefined;
   };
 }
 
