@@ -7,6 +7,7 @@ export default function App() {
   
   return (
     <div 
+      data-theme={mode}
       className={`min-h-screen transition-colors duration-300 ${
         mode === 'light' 
           ? 'bg-white text-zinc-900' 
