@@ -7,7 +7,6 @@ import { ComponentSandbox } from '../sandbox/ComponentSandbox';
 import { useTokenStore } from '../../stores/tokenStore';
 
 type ColorTabType = 'palette' | 'light' | 'dark' | 'components';
-type TypoTabType = 'basics' | 'typography';
 
 export const PreviewPanel: React.FC = () => {
   const { editMode, themeColor } = useTokenStore();
@@ -37,29 +36,31 @@ export const PreviewPanel: React.FC = () => {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="flex-shrink-0">
-        <div className="flex gap-1 border-b transition-colors duration-300"
-          style={{ borderColor: '#e5e7eb' }}>
-          {colorTabs.map((tab) => (
-            <button
-              key={tab.key}
-              onClick={() => setActiveColorTab(tab.key)}
-              className={`flex items-center gap-2 px-4 py-3 text-sm font-medium transition-all duration-200 border-b-2 -mb-px ${
-                activeColorTab === tab.key
-                  ? ''
-                  : 'text-zinc-500 hover:text-zinc-700 border-transparent'
-              }`}
-              style={{
-                color: activeColorTab === tab.key ? themeColor : undefined,
-                borderColor: activeColorTab === tab.key ? themeColor : undefined,
-              }}
-            >
-              {tab.icon}
-              <span>{tab.label}</span>
-            </button>
-          ))}
+      {editMode === 'color' && (
+        <div className="flex-shrink-0">
+          <div className="flex gap-1 border-b transition-colors duration-300"
+            style={{ borderColor: '#e5e7eb' }}>
+            {colorTabs.map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveColorTab(tab.key)}
+                className={`flex items-center gap-2 px-4 py-3 text-sm font-medium transition-all duration-200 border-b-2 -mb-px ${
+                  activeColorTab === tab.key
+                    ? ''
+                    : 'text-zinc-500 hover:text-zinc-700 border-transparent'
+                }`}
+                style={{
+                  color: activeColorTab === tab.key ? themeColor : undefined,
+                  borderColor: activeColorTab === tab.key ? themeColor : undefined,
+                }}
+              >
+                {tab.icon}
+                <span>{tab.label}</span>
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="flex-1 overflow-y-auto min-h-0">
         <div className="p-4">
