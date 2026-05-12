@@ -8,11 +8,11 @@ export const AppShell: React.FC = () => {
   const { mode } = useTokenStore();
   
   return (
-    <div className={`h-screen flex flex-col transition-colors duration-300 ${
+    <div className={`h-screen flex flex-col overflow-hidden transition-colors duration-300 ${
       mode === 'light' ? 'bg-white' : 'bg-zinc-950'
     }`}>
-      <div className="flex-1 flex overflow-hidden">
-        <div className="w-48 shrink-0">
+      <div className="flex-1 flex">
+        <div className="shrink-0 overflow-hidden">
           <Sidebar />
         </div>
         

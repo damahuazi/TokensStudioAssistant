@@ -54,35 +54,10 @@ const PreviewSection: React.FC<PreviewSectionProps> = ({
 };
 
 export const PreviewPanel: React.FC = () => {
-  const { mode, editMode, toggleMode } = useTokenStore();
+  const { editMode } = useTokenStore();
 
   return (
     <div className="space-y-3">
-      <div className="flex items-center justify-between mb-2">
-        <h2 className={`text-lg font-semibold ${
-          mode === 'light' ? 'text-zinc-900' : 'text-zinc-100'
-        }`}>Preview</h2>
-        <button
-          onClick={toggleMode}
-          className={`flex items-center gap-2 px-3 py-2 rounded-full border transition-all duration-300 ${
-            mode === 'light'
-              ? 'bg-zinc-100 border-zinc-200 hover:border-zinc-300'
-              : 'bg-zinc-800 border-zinc-700 hover:border-zinc-600'
-          }`}
-        >
-          {mode === 'light' ? (
-            <Sun className="w-4 h-4 text-yellow-500" />
-          ) : (
-            <Moon className="w-4 h-4 text-blue-400" />
-          )}
-          <span className={`text-xs font-medium capitalize ${
-            mode === 'light' ? 'text-zinc-700' : 'text-zinc-300'
-          }`}>
-            {mode}
-          </span>
-        </button>
-      </div>
-
       {editMode === 'color' ? (
         <>
           <PreviewSection title="Color Palette" icon={<Palette className="w-4 h-4" />} defaultOpen={true}>
