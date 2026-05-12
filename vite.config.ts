@@ -5,16 +5,6 @@ import { traeBadgePlugin } from 'vite-plugin-trae-solo-badge';
 
 // https://vite.dev/config/
 export default defineConfig({
-  server: {
-    host: '0.0.0.0',
-    port: 5173,
-    strictPort: false,
-    allowedHosts: ['localhost', '.trae.cn', '.trae.ai'],
-  },
-  base: '/',
-  build: {
-    sourcemap: 'hidden',
-  },
   plugins: [
     react({
       babel: {
