@@ -35,12 +35,13 @@ export const ColorPalette: React.FC = () => {
               }`}>{category.description}</span>
             </div>
             <div className="grid grid-cols-5 gap-2">
-              {scaleKeys.map((key) => (
+              {scaleKeys.map((key, index) => (
                 <ColorSwatch
                   key={key}
                   color={scale[key].value}
                   name={category.label}
                   scale={key}
+                  isBaseColor={index === 4}
                 />
               ))}
             </div>

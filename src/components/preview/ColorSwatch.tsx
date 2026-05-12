@@ -6,6 +6,7 @@ interface ColorSwatchProps {
   scale: string;
   onClick?: () => void;
   isSelected?: boolean;
+  isBaseColor?: boolean;
 }
 
 export const ColorSwatch: React.FC<ColorSwatchProps> = ({
@@ -14,6 +15,7 @@ export const ColorSwatch: React.FC<ColorSwatchProps> = ({
   scale,
   onClick,
   isSelected = false,
+  isBaseColor = false,
 }) => {
   const getContrastColor = (hex: string): string => {
     // Handle 3-digit hex
@@ -40,6 +42,14 @@ export const ColorSwatch: React.FC<ColorSwatchProps> = ({
       } hover:scale-105 hover:shadow-xl`}
       style={{ backgroundColor: color }}
     >
+      {isBaseColor && (
+        <div 
+          className="absolute top-1 right-1 px-1.5 py-0.5 rounded text-[10px] font-bold"
+          style={{ backgroundColor: textColor, color: color }}
+        >
+          BASE
+        </div>
+      )}
       <div className="p-3 flex-1 flex flex-col justify-between">
         <span 
           className="text-xs font-medium" 
