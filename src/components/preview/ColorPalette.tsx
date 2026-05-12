@@ -35,15 +35,20 @@ export const ColorPalette: React.FC = () => {
               }`}>{category.description}</span>
             </div>
             <div className="grid grid-cols-5 gap-2">
-              {scaleKeys.map((key, index) => (
-                <ColorSwatch
-                  key={key}
-                  color={scale[key].value}
-                  name={category.label}
-                  scale={key}
-                  isBaseColor={index === 4}
-                />
-              ))}
+              {scaleKeys.map((key) => {
+                const colorValue = scale[key].value;
+                // 只有 brand 分类需要标记用户输入的主题色
+                const isBaseColor = category.key === 'brand' && colorValue.toLowerCase() === themeColor.toLowerCase();
+                return (
+                  <ColorSwatch
+                    key={key}
+                    color={colorValue}
+                    name={category.label}
+                    scale={key}
+                    isBaseColor={isBaseColor}
+                  />
+                );
+              })}
             </div>
           </div>
         );
