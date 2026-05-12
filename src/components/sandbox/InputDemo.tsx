@@ -38,7 +38,7 @@ export const InputDemo: React.FC = () => {
       color: disabled
         ? resolveToken(global.color.neutral['400'].value)
         : resolveToken(themeSet.text?.primary?.value || global.color.neutral['900'].value),
-      fontSize: global.typography.fontSize.base.value,
+      fontSize: global.fontSize['16'].value,
       borderRadius: global.radius.md.value,
       padding: `${global.spacing.sm.value} ${global.spacing.md.value}`,
     };
