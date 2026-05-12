@@ -54,7 +54,7 @@ const PreviewSection: React.FC<PreviewSectionProps> = ({
 };
 
 export const PreviewPanel: React.FC = () => {
-  const { mode, toggleMode } = useTokenStore();
+  const { mode, editMode, toggleMode } = useTokenStore();
 
   return (
     <div className="space-y-3">
@@ -83,25 +83,31 @@ export const PreviewPanel: React.FC = () => {
         </button>
       </div>
 
-      <PreviewSection title="Color Palette" icon={<Palette className="w-4 h-4" />} defaultOpen={true}>
-        <ColorPalette />
-      </PreviewSection>
+      {editMode === 'color' ? (
+        <>
+          <PreviewSection title="Color Palette" icon={<Palette className="w-4 h-4" />} defaultOpen={true}>
+            <ColorPalette />
+          </PreviewSection>
 
-      <PreviewSection title="Light Theme" icon={<Sun className="w-4 h-4" />} defaultOpen={true}>
-        <ThemePreview mode="light" />
-      </PreviewSection>
+          <PreviewSection title="Light Theme" icon={<Sun className="w-4 h-4" />} defaultOpen={true}>
+            <ThemePreview mode="light" />
+          </PreviewSection>
 
-      <PreviewSection title="Dark Theme" icon={<Moon className="w-4 h-4" />} defaultOpen={false}>
-        <ThemePreview mode="dark" />
-      </PreviewSection>
+          <PreviewSection title="Dark Theme" icon={<Moon className="w-4 h-4" />} defaultOpen={false}>
+            <ThemePreview mode="dark" />
+          </PreviewSection>
 
-      <PreviewSection title="Typography" icon={<Type className="w-4 h-4" />} defaultOpen={false}>
-        <TypographyList />
-      </PreviewSection>
-
-      <PreviewSection title="Component Sandbox" icon={<Grid className="w-4 h-4" />} defaultOpen={true}>
-        <ComponentSandbox />
-      </PreviewSection>
+          <PreviewSection title="Component Sandbox" icon={<Grid className="w-4 h-4" />} defaultOpen={true}>
+            <ComponentSandbox />
+          </PreviewSection>
+        </>
+      ) : (
+        <>
+          <PreviewSection title="Typography" icon={<Type className="w-4 h-4" />} defaultOpen={true}>
+            <TypographyList />
+          </PreviewSection>
+        </>
+      )}
     </div>
   );
 };

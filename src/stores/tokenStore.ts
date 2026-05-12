@@ -2,17 +2,21 @@ import { create } from 'zustand';
 import { GeneratedTokens, FontConfig, ThemeMode } from '../types/tokens';
 import { generateTokens } from '../utils/color/tokens';
 
+export type EditMode = 'color' | 'typography';
+
 interface TokenState {
   themeColor: string;
   scaleCount: number;
   fontConfig: FontConfig;
   tokens: GeneratedTokens;
   mode: 'light' | 'dark';
+  editMode: EditMode;
   setThemeColor: (color: string) => void;
   setScaleCount: (count: number) => void;
   setFontConfig: (config: Partial<FontConfig>) => void;
   setMode: (mode: 'light' | 'dark') => void;
   toggleMode: () => void;
+  setEditMode: (mode: EditMode) => void;
 }
 
 const defaultFontConfig: FontConfig = {
@@ -28,6 +32,7 @@ export const useTokenStore = create<TokenState>((set) => ({
   fontConfig: defaultFontConfig,
   tokens: generateTokens('#3b82f6', 10, defaultFontConfig),
   mode: 'light',
+  editMode: 'color',
   
   setThemeColor: (color: string) =>
     set((state) => ({
@@ -56,4 +61,6 @@ export const useTokenStore = create<TokenState>((set) => ({
     set((state) => ({
       mode: state.mode === 'light' ? 'dark' : 'light',
     })),
+
+  setEditMode: (editMode: EditMode) => set({ editMode }),
 }));

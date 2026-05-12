@@ -1,27 +1,32 @@
 import React from 'react';
 import { ConfigPanel } from '../config/ConfigPanel';
 import { PreviewPanel } from '../preview/PreviewPanel';
-import { ExportPanel } from '../export/ExportPanel';
+import { Sidebar } from './Sidebar';
 import { useTokenStore } from '../../stores/tokenStore';
 
 export const AppShell: React.FC = () => {
   const { mode } = useTokenStore();
   
   return (
-    <div className={`transition-colors duration-300 ${
+    <div className={`h-screen flex flex-col transition-colors duration-300 ${
       mode === 'light' ? 'bg-white' : 'bg-zinc-950'
     }`}>
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          <aside className="lg:col-span-4 space-y-6">
-            <ConfigPanel />
-            <ExportPanel />
-          </aside>
-
-          <main className="lg:col-span-8">
-            <PreviewPanel />
-          </main>
+      <div className="flex-1 flex overflow-hidden">
+        <div className="w-48 shrink-0">
+          <Sidebar />
         </div>
+        
+        <div className="w-80 shrink-0 overflow-y-auto">
+          <div className="p-4 space-y-4">
+            <ConfigPanel />
+          </div>
+        </div>
+        
+        <main className="flex-1 overflow-y-auto">
+          <div className="p-6">
+            <PreviewPanel />
+          </div>
+        </main>
       </div>
     </div>
   );
