@@ -13,7 +13,6 @@ interface TokenState {
   editMode: EditMode;
   showJsonPreview: boolean;
   setThemeColor: (color: string) => void;
-  setScaleCount: (count: number) => void;
   setFontConfig: (config: Partial<FontConfig>) => void;
   setMode: (mode: 'light' | 'dark') => void;
   toggleMode: () => void;
@@ -28,11 +27,13 @@ const defaultFontConfig: FontConfig = {
   scaleRatio: 1.25,
 };
 
+const SCALE_COUNT = 10;
+
 export const useTokenStore = create<TokenState>((set) => ({
   themeColor: '#3b82f6',
-  scaleCount: 10,
+  scaleCount: SCALE_COUNT,
   fontConfig: defaultFontConfig,
-  tokens: generateTokens('#3b82f6', 10, defaultFontConfig),
+  tokens: generateTokens('#3b82f6', defaultFontConfig),
   mode: 'light',
   editMode: 'color',
   showJsonPreview: false,
@@ -40,13 +41,7 @@ export const useTokenStore = create<TokenState>((set) => ({
   setThemeColor: (color: string) =>
     set((state) => ({
       themeColor: color,
-      tokens: generateTokens(color, state.scaleCount, state.fontConfig),
-    })),
-
-  setScaleCount: (count: number) =>
-    set((state) => ({
-      scaleCount: count,
-      tokens: generateTokens(state.themeColor, count, state.fontConfig),
+      tokens: generateTokens(color, state.fontConfig),
     })),
 
   setFontConfig: (config: Partial<FontConfig>) =>
@@ -54,7 +49,7 @@ export const useTokenStore = create<TokenState>((set) => ({
       const newConfig = { ...state.fontConfig, ...config };
       return {
         fontConfig: newConfig,
-        tokens: generateTokens(state.themeColor, state.scaleCount, newConfig),
+        tokens: generateTokens(state.themeColor, newConfig),
       };
     }),
 

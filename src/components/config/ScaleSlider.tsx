@@ -2,7 +2,7 @@ import React from 'react';
 import { useTokenStore } from '../../stores/tokenStore';
 
 export const ScaleSlider: React.FC = () => {
-  const { scaleCount, setScaleCount, mode } = useTokenStore();
+  const { scaleCount, mode } = useTokenStore();
 
   return (
     <div className="space-y-4">
@@ -12,57 +12,22 @@ export const ScaleSlider: React.FC = () => {
         }`}>
           Scale Count
         </label>
-        <span className={`text-xs font-mono ${
-          mode === 'light' ? 'text-zinc-600' : 'text-zinc-500'
+        <span className={`text-xs font-mono px-2 py-1 rounded ${
+          mode === 'light' ? 'bg-blue-100 text-blue-700' : 'bg-blue-900/50 text-blue-400'
         }`}>{scaleCount} steps</span>
-      </div>
-
-      <div className="relative">
-        <input
-          type="range"
-          min="5"
-          max="10"
-          step="1"
-          value={scaleCount}
-          onChange={(e) => setScaleCount(parseInt(e.target.value))}
-          className={`w-full h-2 rounded-lg appearance-none cursor-pointer
-            [&::-webkit-slider-thumb]:appearance-none
-            [&::-webkit-slider-thumb]:w-5
-            [&::-webkit-slider-thumb]:h-5
-            [&::-webkit-slider-thumb]:rounded-full
-            [&::-webkit-slider-thumb]:bg-blue-500
-            [&::-webkit-slider-thumb]:border-2
-            [&::-webkit-slider-thumb]:border-white
-            [&::-webkit-slider-thumb]:shadow-lg
-            [&::-webkit-slider-thumb]:transition-transform
-            [&::-webkit-slider-thumb]:hover:scale-110 ${
-            mode === 'light' ? 'bg-zinc-200' : 'bg-zinc-800'
-          }`}
-        />
-        
-        <div className={`flex justify-between mt-2 text-xs ${
-          mode === 'light' ? 'text-zinc-600' : 'text-zinc-500'
-        }`}>
-          <span>5</span>
-          <span>6</span>
-          <span>7</span>
-          <span>8</span>
-          <span>9</span>
-          <span>10</span>
-        </div>
       </div>
 
       <div className="flex gap-1">
         {[5, 6, 7, 8, 9, 10].map((count) => (
           <button
             key={count}
-            onClick={() => setScaleCount(count)}
+            disabled={count !== 10}
             className={`flex-1 h-8 text-xs font-medium rounded transition-all ${
-              scaleCount === count
+              count === 10
                 ? 'bg-blue-500 text-white'
                 : mode === 'light'
-                ? 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200'
-                : 'bg-zinc-700 text-zinc-300 hover:bg-zinc-600'
+                ? 'bg-zinc-100 text-zinc-400 cursor-not-allowed'
+                : 'bg-zinc-700 text-zinc-500 cursor-not-allowed'
             }`}
           >
             {count}

@@ -13,17 +13,18 @@ const createTokenValue = (value: string, type: string): TokenValue => ({
   type,
 });
 
+const SCALE_COUNT = 10;
+
 export const generateTokens = (
   themeColor: string,
-  scaleCount: number,
   fontConfig: FontConfig
 ): GeneratedTokens => {
-  const brandScale = generateColorScale(themeColor, scaleCount);
-  const neutralScale = generateNeutralScale(themeColor, scaleCount);
-  const successScale = generateSuccessScale(themeColor, scaleCount);
-  const warningScale = generateWarningScale(themeColor, scaleCount);
-  const errorScale = generateErrorScale(themeColor, scaleCount);
-  const infoScale = generateInfoScale(themeColor, scaleCount);
+  const brandScale = generateColorScale(themeColor, SCALE_COUNT);
+  const neutralScale = generateNeutralScale(themeColor, SCALE_COUNT);
+  const successScale = generateSuccessScale(themeColor, SCALE_COUNT);
+  const warningScale = generateWarningScale(themeColor, SCALE_COUNT);
+  const errorScale = generateErrorScale(themeColor, SCALE_COUNT);
+  const infoScale = generateInfoScale(themeColor, SCALE_COUNT);
 
   const colorScaleKeys = Object.keys(brandScale);
 
@@ -189,7 +190,7 @@ export const generateTokens = (
     },
     border: {
       default: createTokenValue('{global.color.neutral.700}', 'color'),
-      strong: createTokenValue('{global.color.neutral.500}', 'color'),
+      strong: createTokenValue('{global.color.neutral.600}', 'color'),
       brand: createTokenValue('{global.color.brand.400}', 'color'),
       error: createTokenValue('{global.color.error.400}', 'color'),
       disabled: createTokenValue('{global.color.neutral.700}', 'color'),
