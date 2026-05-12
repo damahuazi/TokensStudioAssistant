@@ -52,10 +52,10 @@ export const ConfigPanel: React.FC = () => {
               type="checkbox"
               checked={showJsonPreview}
               onChange={(e) => setShowJsonPreview(e.target.checked)}
-              className={`w-4 h-4 rounded border transition-colors duration-200 ${
+              className={`w-4 h-4 rounded border-2 transition-colors duration-200 ${
                 mode === 'light' 
-                  ? 'border-zinc-300 bg-white focus:ring-blue-500' 
-                  : 'border-zinc-600 bg-zinc-800 focus:ring-blue-500'
+                  ? 'border-zinc-300 bg-white accent-blue-500' 
+                  : 'border-zinc-600 bg-zinc-800 accent-blue-400'
               }`}
             />
             <div className="flex items-center gap-2">

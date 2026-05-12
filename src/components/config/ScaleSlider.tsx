@@ -57,12 +57,12 @@ export const ScaleSlider: React.FC = () => {
           <button
             key={count}
             onClick={() => setScaleCount(count)}
-            className={`flex-1 py-1 text-xs rounded transition-all ${
+            className={`flex-1 h-8 text-xs font-medium rounded transition-all ${
               scaleCount === count
                 ? 'bg-blue-500 text-white'
                 : mode === 'light'
                 ? 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200'
-                : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700'
+                : 'bg-zinc-700 text-zinc-300 hover:bg-zinc-600'
             }`}
           >
             {count}
