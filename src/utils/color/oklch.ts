@@ -33,18 +33,18 @@ export const oklchToHex = (l: number, c: number, h: number): string => {
 
 export const generateColorScale = (
   baseHex: string,
-  count: number = 10
+  count: number = 11
 ): { [key: string]: string } => {
   const { l, c, h } = hexToOklch(baseHex);
   const scale: { [key: string]: string } = {};
   
   const lightnessSteps = [
-    0.97, 0.93, 0.86, 0.76, 0.65, 0.54, 0.44, 0.35, 0.26, 0.18
+    0.97, 0.93, 0.86, 0.76, 0.65, 0.54, 0.44, 0.35, 0.26, 0.18, 0.10
   ];
   
-  const scaleKeys = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'];
+  const scaleKeys = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'];
   
-  for (let i = 0; i < Math.min(count, 10); i++) {
+  for (let i = 0; i < Math.min(count, 11); i++) {
     const targetL = lightnessSteps[i];
     const diffL = targetL - l;
     const newC = Math.max(0, c * (1 - Math.abs(diffL) * 0.3));
@@ -57,17 +57,17 @@ export const generateColorScale = (
 
 export const generateNeutralScale = (
   baseHex: string,
-  count: number = 10
+  count: number = 11
 ): { [key: string]: string } => {
   const scale: { [key: string]: string } = {};
   
   const lightnessSteps = [
-    0.98, 0.96, 0.92, 0.82, 0.70, 0.58, 0.46, 0.36, 0.26, 0.16
+    0.98, 0.96, 0.92, 0.82, 0.70, 0.58, 0.46, 0.36, 0.26, 0.16, 0.10
   ];
   
-  const scaleKeys = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'];
+  const scaleKeys = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'];
   
-  for (let i = 0; i < Math.min(count, 10); i++) {
+  for (let i = 0; i < Math.min(count, 11); i++) {
     const l = lightnessSteps[i];
     const grayHex = oklchToHex(l, 0, 0);
     scale[scaleKeys[i]] = grayHex;
@@ -79,17 +79,17 @@ export const generateNeutralScale = (
 export const generateFixedColorScale = (
   baseHue: number,
   baseChroma: number,
-  count: number = 10
+  count: number = 11
 ): { [key: string]: string } => {
   const scale: { [key: string]: string } = {};
   
   const lightnessSteps = [
-    0.97, 0.93, 0.86, 0.76, 0.65, 0.54, 0.44, 0.35, 0.26, 0.18
+    0.97, 0.93, 0.86, 0.76, 0.65, 0.54, 0.44, 0.35, 0.26, 0.18, 0.10
   ];
   
-  const scaleKeys = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'];
+  const scaleKeys = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'];
   
-  for (let i = 0; i < Math.min(count, 10); i++) {
+  for (let i = 0; i < Math.min(count, 11); i++) {
     const l = lightnessSteps[i];
     const c = Math.max(0, baseChroma * (1 - Math.abs(l - 0.5) * 0.4));
     scale[scaleKeys[i]] = oklchToHex(l, c, baseHue);
@@ -98,18 +98,18 @@ export const generateFixedColorScale = (
   return scale;
 };
 
-export const generateSuccessScale = (baseHex: string, count: number = 10) => {
+export const generateSuccessScale = (baseHex: string, count: number = 11) => {
   return generateFixedColorScale(145, 0.25, count);
 };
 
-export const generateWarningScale = (baseHex: string, count: number = 10) => {
+export const generateWarningScale = (baseHex: string, count: number = 11) => {
   return generateFixedColorScale(50, 0.28, count);
 };
 
-export const generateErrorScale = (baseHex: string, count: number = 10) => {
+export const generateErrorScale = (baseHex: string, count: number = 11) => {
   return generateFixedColorScale(25, 0.28, count);
 };
 
-export const generateInfoScale = (baseHex: string, count: number = 10) => {
+export const generateInfoScale = (baseHex: string, count: number = 11) => {
   return generateFixedColorScale(220, 0.22, count);
 };
