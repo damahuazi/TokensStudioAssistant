@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Palette, Type, Download, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Palette, Type, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTokenStore } from '../../stores/tokenStore';
 
 export const Sidebar: React.FC = () => {
@@ -25,6 +25,32 @@ export const Sidebar: React.FC = () => {
         ? 'border-zinc-200 bg-white/50' 
         : 'border-zinc-800 bg-zinc-900/50'
     } ${collapsed ? 'w-16' : 'w-48'}`}>
+      <div className="p-2 border-b transition-colors duration-300"
+        style={{ borderColor: mode === 'light' ? '#e5e7eb' : '#3f3f46' }}>
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className={`flex items-center gap-3 w-full px-3 py-2 rounded-lg transition-all duration-200 ${
+            mode === 'light'
+              ? 'text-zinc-600 hover:bg-zinc-100'
+              : 'text-zinc-400 hover:bg-zinc-800'
+          }`}
+          title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+        >
+          {collapsed ? (
+            <ChevronRight className="w-4 h-4 shrink-0" />
+          ) : (
+            <ChevronLeft className="w-4 h-4 shrink-0" />
+          )}
+          {!collapsed && (
+            <span className={`text-sm font-medium ${
+              mode === 'light' ? 'text-zinc-900' : 'text-zinc-200'
+            }`}>
+              Collapse
+            </span>
+          )}
+        </button>
+      </div>
+
       <nav className="flex flex-col gap-1 p-2">
         {navItems.map((item) => (
           <button
@@ -61,63 +87,6 @@ export const Sidebar: React.FC = () => {
           </button>
         ))}
       </nav>
-
-      <div className="flex-1" />
-
-      <div className={`p-2 border-t transition-colors duration-300 ${
-        mode === 'light' ? 'border-zinc-200' : 'border-zinc-800'
-      }`}>
-        <button
-          className={`flex items-center gap-3 w-full px-3 py-3 rounded-lg transition-all duration-200 ${
-            mode === 'light'
-              ? 'text-zinc-600 hover:bg-zinc-100'
-              : 'text-zinc-400 hover:bg-zinc-800'
-          }`}
-          onClick={() => {
-            const tokens = useTokenStore.getState().tokens;
-            const blob = new Blob([JSON.stringify(tokens, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'tokens.json';
-            a.click();
-            URL.revokeObjectURL(url);
-          }}
-          title={collapsed ? 'Export' : undefined}
-        >
-          <Download className="w-5 h-5 shrink-0" />
-          {!collapsed && (
-            <span className={`text-sm font-medium ${
-              mode === 'light' ? 'text-zinc-900' : 'text-zinc-200'
-            }`}>
-              Export
-            </span>
-          )}
-        </button>
-
-        <button
-          onClick={() => setCollapsed(!collapsed)}
-          className={`mt-1 flex items-center gap-3 w-full px-3 py-3 rounded-lg transition-all duration-200 ${
-            mode === 'light'
-              ? 'text-zinc-600 hover:bg-zinc-100'
-              : 'text-zinc-400 hover:bg-zinc-800'
-          }`}
-          title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-        >
-          {collapsed ? (
-            <ChevronRight className="w-5 h-5 shrink-0" />
-          ) : (
-            <ChevronLeft className="w-5 h-5 shrink-0" />
-          )}
-          {!collapsed && (
-            <span className={`text-sm font-medium ${
-              mode === 'light' ? 'text-zinc-900' : 'text-zinc-200'
-            }`}>
-              Collapse
-            </span>
-          )}
-        </button>
-      </div>
     </aside>
   );
 };
