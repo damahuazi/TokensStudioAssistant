@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTokenStore } from '../../stores/tokenStore';
 
 export const InputDemo: React.FC = () => {
-  const { tokens, mode: storeMode } = useTokenStore();
+  const { tokens, mode: storeMode, themeColor } = useTokenStore();
   const [focused, setFocused] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
@@ -59,9 +59,10 @@ export const InputDemo: React.FC = () => {
             onChange={(e) => setDisabled(e.target.checked)}
             className={`w-4 h-4 rounded ${
               storeMode === 'light'
-                ? 'border-zinc-300 bg-white text-blue-500 focus:ring-blue-500'
-                : 'border-zinc-600 bg-zinc-800 text-blue-500 focus:ring-blue-500'
+                ? 'border-zinc-300 bg-white'
+                : 'border-zinc-600 bg-zinc-800'
             }`}
+            style={{ accentColor: themeColor }}
           />
           <span className={`text-xs ${
             storeMode === 'light' ? 'text-zinc-600' : 'text-zinc-400'
