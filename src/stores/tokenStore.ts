@@ -11,12 +11,14 @@ interface TokenState {
   tokens: GeneratedTokens;
   mode: 'light' | 'dark';
   editMode: EditMode;
+  showJsonPreview: boolean;
   setThemeColor: (color: string) => void;
   setScaleCount: (count: number) => void;
   setFontConfig: (config: Partial<FontConfig>) => void;
   setMode: (mode: 'light' | 'dark') => void;
   toggleMode: () => void;
   setEditMode: (mode: EditMode) => void;
+  setShowJsonPreview: (show: boolean) => void;
 }
 
 const defaultFontConfig: FontConfig = {
@@ -33,6 +35,7 @@ export const useTokenStore = create<TokenState>((set) => ({
   tokens: generateTokens('#3b82f6', 10, defaultFontConfig),
   mode: 'light',
   editMode: 'color',
+  showJsonPreview: false,
   
   setThemeColor: (color: string) =>
     set((state) => ({
@@ -63,4 +66,6 @@ export const useTokenStore = create<TokenState>((set) => ({
     })),
 
   setEditMode: (editMode: EditMode) => set({ editMode }),
+
+  setShowJsonPreview: (showJsonPreview: boolean) => set({ showJsonPreview }),
 }));

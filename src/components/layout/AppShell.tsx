@@ -7,7 +7,7 @@ import { SplitPanel } from './SplitPanel';
 import { useTokenStore } from '../../stores/tokenStore';
 
 export const AppShell: React.FC = () => {
-  const { mode } = useTokenStore();
+  const { mode, showJsonPreview } = useTokenStore();
   
   return (
     <div className="flex h-full">
@@ -21,11 +21,19 @@ export const AppShell: React.FC = () => {
       </div>
       
       <main className="flex-1 h-full overflow-hidden">
-        <SplitPanel 
-          top={<div className="p-4"><PreviewPanel /></div>}
-          bottom={<div className="p-4"><JsonPreview /></div>}
-          initialRatio={0.6}
-        />
+        {showJsonPreview ? (
+          <SplitPanel 
+            top={<div className="p-4"><PreviewPanel /></div>}
+            bottom={<div className="p-4"><JsonPreview /></div>}
+            initialRatio={0.6}
+          />
+        ) : (
+          <div className="h-full overflow-y-auto">
+            <div className="p-4">
+              <PreviewPanel />
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
