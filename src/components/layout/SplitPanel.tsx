@@ -16,7 +16,7 @@ export const SplitPanel: React.FC<SplitPanelProps> = ({
   const [isHovered, setIsHovered] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const isDraggingRef = useRef(false);
-  const { mode } = useTokenStore();
+  const { mode, themeColor } = useTokenStore();
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     isDraggingRef.current = true;
@@ -65,7 +65,7 @@ export const SplitPanel: React.FC<SplitPanelProps> = ({
         onMouseLeave={() => setIsHovered(false)}
         style={{
           backgroundColor: isHovered 
-            ? (mode === 'light' ? '#3b82f6' : '#60a5fa')
+            ? themeColor
             : (mode === 'light' ? '#d1d5db' : '#4b5563'),
         }}
       />
