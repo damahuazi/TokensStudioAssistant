@@ -1,88 +1,75 @@
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, Palette, Type, Grid, Sun, Moon } from 'lucide-react';
+import { Palette, Sun, Moon, Grid } from 'lucide-react';
 import { ColorPalette } from './ColorPalette';
 import { TypographyList } from './TypographyList';
 import { ThemePreview } from './ThemePreview';
 import { ComponentSandbox } from '../sandbox/ComponentSandbox';
 import { useTokenStore } from '../../stores/tokenStore';
 
-interface PreviewSectionProps {
-  title: string;
-  icon: React.ReactNode;
-  children: React.ReactNode;
-  defaultOpen?: boolean;
-}
-
-const PreviewSection: React.FC<PreviewSectionProps> = ({
-  title,
-  icon,
-  children,
-  defaultOpen = true,
-}) => {
-  const [isOpen, setIsOpen] = useState(defaultOpen);
-  const { mode } = useTokenStore();
-
-  return (
-    <div className={`border rounded-xl overflow-hidden backdrop-blur-sm transition-colors duration-300 ${
-      mode === 'light' 
-        ? 'border-zinc-200 bg-white/50' 
-        : 'border-zinc-800 bg-zinc-900/50'
-    }`}>
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className={`w-full flex items-center justify-between px-4 py-3 text-left transition-colors ${
-          mode === 'light'
-            ? 'hover:bg-zinc-100/50'
-            : 'hover:bg-zinc-800/50'
-        }`}
-      >
-        <div className="flex items-center gap-2">
-          <span className={mode === 'light' ? 'text-zinc-600' : 'text-zinc-400'}>{icon}</span>
-          <span className={`text-sm font-medium ${
-            mode === 'light' ? 'text-zinc-900' : 'text-zinc-200'
-          }`}>{title}</span>
-        </div>
-        {isOpen ? (
-          <ChevronUp className={`w-4 h-4 ${mode === 'light' ? 'text-zinc-500' : 'text-zinc-400'}`} />
-        ) : (
-          <ChevronDown className={`w-4 h-4 ${mode === 'light' ? 'text-zinc-500' : 'text-zinc-400'}`} />
-        )}
-      </button>
-      {isOpen && <div className="px-4 pb-4">{children}</div>}
-    </div>
-  );
-};
+type ColorTabType = 'palette' | 'light' | 'dark' | 'components';
+type TypoTabType = 'basics' | 'typography';
 
 export const PreviewPanel: React.FC = () => {
-  const { editMode } = useTokenStore();
+  const { editMode, themeColor } = useTokenStore();
+  const [activeColorTab, setActiveColorTab] = useState<ColorTabType>('palette');
+
+  const colorTabs = [
+    { key: 'palette' as ColorTabType, label: 'Palette', icon: <Palette className="w-4 h-4" /> },
+    { key: 'light' as ColorTabType, label: 'Light', icon: <Sun className="w-4 h-4" /> },
+    { key: 'dark' as ColorTabType, label: 'Dark', icon: <Moon className="w-4 h-4" /> },
+    { key: 'components' as ColorTabType, label: 'Components', icon: <Grid className="w-4 h-4" /> },
+  ];
+
+  const renderColorPreview = () => {
+    switch (activeColorTab) {
+      case 'palette':
+        return <ColorPalette />;
+      case 'light':
+        return <ThemePreview mode="light" />;
+      case 'dark':
+        return <ThemePreview mode="dark" />;
+      case 'components':
+        return <ComponentSandbox />;
+      default:
+        return <ColorPalette />;
+    }
+  };
 
   return (
-    <div className="space-y-3">
-      {editMode === 'color' ? (
-        <>
-          <PreviewSection title="Color Palette" icon={<Palette className="w-4 h-4" />} defaultOpen={true}>
-            <ColorPalette />
-          </PreviewSection>
+    <div className="h-full flex flex-col">
+      <div className="flex-shrink-0">
+        <div className="flex gap-1 border-b transition-colors duration-300"
+          style={{ borderColor: '#e5e7eb' }}>
+          {colorTabs.map((tab) => (
+            <button
+              key={tab.key}
+              onClick={() => setActiveColorTab(tab.key)}
+              className={`flex items-center gap-2 px-4 py-3 text-sm font-medium transition-all duration-200 border-b-2 -mb-px ${
+                activeColorTab === tab.key
+                  ? ''
+                  : 'text-zinc-500 hover:text-zinc-700 border-transparent'
+              }`}
+              style={{
+                color: activeColorTab === tab.key ? themeColor : undefined,
+                borderColor: activeColorTab === tab.key ? themeColor : undefined,
+              }}
+            >
+              {tab.icon}
+              <span>{tab.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
 
-          <PreviewSection title="Light Theme" icon={<Sun className="w-4 h-4" />} defaultOpen={true}>
-            <ThemePreview mode="light" />
-          </PreviewSection>
-
-          <PreviewSection title="Dark Theme" icon={<Moon className="w-4 h-4" />} defaultOpen={false}>
-            <ThemePreview mode="dark" />
-          </PreviewSection>
-
-          <PreviewSection title="Component Sandbox" icon={<Grid className="w-4 h-4" />} defaultOpen={true}>
-            <ComponentSandbox />
-          </PreviewSection>
-        </>
-      ) : (
-        <>
-          <PreviewSection title="Typography" icon={<Type className="w-4 h-4" />} defaultOpen={true}>
+      <div className="flex-1 overflow-y-auto min-h-0">
+        <div className="p-4">
+          {editMode === 'color' ? (
+            renderColorPreview()
+          ) : (
             <TypographyList />
-          </PreviewSection>
-        </>
-      )}
+          )}
+        </div>
+      </div>
     </div>
   );
 };
