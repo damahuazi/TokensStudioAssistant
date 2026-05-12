@@ -20,21 +20,32 @@ const PreviewSection: React.FC<PreviewSectionProps> = ({
   defaultOpen = true,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
+  const { mode } = useTokenStore();
 
   return (
-    <div className="border border-zinc-800 rounded-xl overflow-hidden bg-zinc-900/50 backdrop-blur-sm">
+    <div className={`border rounded-xl overflow-hidden backdrop-blur-sm transition-colors duration-300 ${
+      mode === 'light' 
+        ? 'border-zinc-200 bg-white/50' 
+        : 'border-zinc-800 bg-zinc-900/50'
+    }`}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-zinc-800/50 transition-colors"
+        className={`w-full flex items-center justify-between px-4 py-3 text-left transition-colors ${
+          mode === 'light'
+            ? 'hover:bg-zinc-100/50'
+            : 'hover:bg-zinc-800/50'
+        }`}
       >
         <div className="flex items-center gap-2">
-          <span className="text-zinc-400">{icon}</span>
-          <span className="text-sm font-medium text-zinc-200">{title}</span>
+          <span className={mode === 'light' ? 'text-zinc-600' : 'text-zinc-400'}>{icon}</span>
+          <span className={`text-sm font-medium ${
+            mode === 'light' ? 'text-zinc-900' : 'text-zinc-200'
+          }`}>{title}</span>
         </div>
         {isOpen ? (
-          <ChevronUp className="w-4 h-4 text-zinc-500" />
+          <ChevronUp className={`w-4 h-4 ${mode === 'light' ? 'text-zinc-500' : 'text-zinc-400'}`} />
         ) : (
-          <ChevronDown className="w-4 h-4 text-zinc-500" />
+          <ChevronDown className={`w-4 h-4 ${mode === 'light' ? 'text-zinc-500' : 'text-zinc-400'}`} />
         )}
       </button>
       {isOpen && <div className="px-4 pb-4">{children}</div>}
@@ -48,17 +59,25 @@ export const PreviewPanel: React.FC = () => {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between mb-2">
-        <h2 className="text-lg font-semibold text-zinc-100">Preview</h2>
+        <h2 className={`text-lg font-semibold ${
+          mode === 'light' ? 'text-zinc-900' : 'text-zinc-100'
+        }`}>Preview</h2>
         <button
           onClick={toggleMode}
-          className="flex items-center gap-2 px-3 py-2 bg-zinc-800 rounded-full border border-zinc-700 hover:border-zinc-600 transition-all"
+          className={`flex items-center gap-2 px-3 py-2 rounded-full border transition-all duration-300 ${
+            mode === 'light'
+              ? 'bg-zinc-100 border-zinc-200 hover:border-zinc-300'
+              : 'bg-zinc-800 border-zinc-700 hover:border-zinc-600'
+          }`}
         >
           {mode === 'light' ? (
             <Sun className="w-4 h-4 text-yellow-500" />
           ) : (
             <Moon className="w-4 h-4 text-blue-400" />
           )}
-          <span className="text-xs font-medium text-zinc-300 capitalize">
+          <span className={`text-xs font-medium capitalize ${
+            mode === 'light' ? 'text-zinc-700' : 'text-zinc-300'
+          }`}>
             {mode}
           </span>
         </button>

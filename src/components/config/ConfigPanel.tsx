@@ -3,6 +3,7 @@ import { ChevronDown, ChevronUp, Palette, Type, Sliders } from 'lucide-react';
 import { ColorPicker } from './ColorPicker';
 import { ScaleSlider } from './ScaleSlider';
 import { FontConfig } from './FontConfig';
+import { useTokenStore } from '../../stores/tokenStore';
 
 interface PanelSectionProps {
   title: string;
@@ -13,21 +14,32 @@ interface PanelSectionProps {
 
 const PanelSection: React.FC<PanelSectionProps> = ({ title, icon, children, defaultOpen = true }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
+  const { mode } = useTokenStore();
 
   return (
-    <div className="border border-zinc-800 rounded-xl overflow-hidden bg-zinc-900/50 backdrop-blur-sm">
+    <div className={`border rounded-xl overflow-hidden backdrop-blur-sm transition-colors duration-300 ${
+      mode === 'light' 
+        ? 'border-zinc-200 bg-white/50' 
+        : 'border-zinc-800 bg-zinc-900/50'
+    }`}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-zinc-800/50 transition-colors"
+        className={`w-full flex items-center justify-between px-4 py-3 text-left transition-colors ${
+          mode === 'light'
+            ? 'hover:bg-zinc-100/50'
+            : 'hover:bg-zinc-800/50'
+        }`}
       >
         <div className="flex items-center gap-2">
-          <span className="text-zinc-400">{icon}</span>
-          <span className="text-sm font-medium text-zinc-200">{title}</span>
+          <span className={mode === 'light' ? 'text-zinc-600' : 'text-zinc-400'}>{icon}</span>
+          <span className={`text-sm font-medium ${
+            mode === 'light' ? 'text-zinc-900' : 'text-zinc-200'
+          }`}>{title}</span>
         </div>
         {isOpen ? (
-          <ChevronUp className="w-4 h-4 text-zinc-500" />
+          <ChevronUp className={`w-4 h-4 ${mode === 'light' ? 'text-zinc-500' : 'text-zinc-400'}`} />
         ) : (
-          <ChevronDown className="w-4 h-4 text-zinc-500" />
+          <ChevronDown className={`w-4 h-4 ${mode === 'light' ? 'text-zinc-500' : 'text-zinc-400'}`} />
         )}
       </button>
       {isOpen && <div className="px-4 pb-4 space-y-4">{children}</div>}
