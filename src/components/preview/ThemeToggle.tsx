@@ -8,7 +8,7 @@ export const ThemeToggle: React.FC = () => {
   return (
     <button
       onClick={toggleMode}
-      className={`relative flex items-center gap-2 px-4 py-2 rounded-full border transition-all duration-200 group ${
+      className={`flex items-center justify-center w-9 h-9 rounded-full border transition-all duration-200 ${
         mode === 'light'
           ? 'bg-zinc-100 border-zinc-200 hover:border-zinc-300'
           : 'bg-zinc-800 border-zinc-700 hover:border-zinc-600'
@@ -31,11 +31,6 @@ export const ThemeToggle: React.FC = () => {
           }`}
         />
       </div>
-      <span className={`text-xs font-medium ${
-        mode === 'light' ? 'text-zinc-700' : 'text-zinc-300'
-      }`}>
-        {mode === 'light' ? 'Light' : 'Dark'}
-      </span>
     </button>
   );
 };

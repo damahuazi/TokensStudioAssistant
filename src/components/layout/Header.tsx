@@ -58,6 +58,7 @@ export const Header: React.FC = () => {
           >
             Tokens Studio Docs
           </a>
+          <ThemeToggle />
           <button
             onClick={handleExport}
             className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 ${
@@ -69,7 +70,6 @@ export const Header: React.FC = () => {
             <Download className="w-4 h-4" />
             <span className="text-sm font-medium">Export</span>
           </button>
-          <ThemeToggle />
         </div>
       </div>
     </header>
