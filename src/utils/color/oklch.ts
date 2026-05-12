@@ -118,7 +118,7 @@ export const generateSuccessScale = (baseHex: string, count: number = 11) => {
 };
 
 export const generateWarningScale = (baseHex: string, count: number = 11) => {
-  return generateFixedColorScale(50, 0.28, count);
+  return generateFixedColorScale(70, 0.26, count);
 };
 
 export const generateErrorScale = (baseHex: string, count: number = 11) => {
