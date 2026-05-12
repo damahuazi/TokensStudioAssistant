@@ -18,7 +18,7 @@ export const PreviewPanel: React.FC = () => {
     { key: 'palette' as ColorTabType, label: 'Palette', icon: <Palette className="w-4 h-4" /> },
     { key: 'light' as ColorTabType, label: 'Light', icon: <Sun className="w-4 h-4" /> },
     { key: 'dark' as ColorTabType, label: 'Dark', icon: <Moon className="w-4 h-4" /> },
-    { key: 'components' as ColorTabType, label: 'Components', icon: <Grid className="w-4 h-4" /> },
+    { key: 'components' as ColorTabType, label: 'Demo', icon: <Grid className="w-4 h-4" /> },
   ];
 
   const renderColorPreview = () => {
