@@ -59,44 +59,27 @@ export const TypographyList: React.FC = () => {
         <h3 className={`text-sm font-medium ${
           mode === 'light' ? 'text-zinc-900' : 'text-zinc-200'
         }`}>Font Sizes</h3>
-        <div className="space-y-3">
+        <div className="grid grid-cols-2 gap-3">
           {fontSizeEntries.map(({ key, label }) => {
             const token = fontSizes[key];
             if (!token) return null;
-            const size = parseInt(token.value);
             return (
               <div
                 key={key}
-                className={`flex items-baseline justify-between py-2 border-b last:border-0 ${
-                  mode === 'light' ? 'border-zinc-200' : 'border-zinc-800'
+                className={`p-3 rounded-lg border ${
+                  mode === 'light'
+                    ? 'bg-zinc-100/50 border-zinc-200'
+                    : 'bg-zinc-800/50 border-zinc-800'
                 }`}
               >
-                <div className="flex items-center gap-4 min-w-0">
-                  <span className={`text-xs font-mono w-12 shrink-0 ${
+                <div className="flex items-center justify-between">
+                  <span className={`text-xs font-mono ${
                     mode === 'light' ? 'text-zinc-600' : 'text-zinc-500'
                   }`}>
                     {key}
                   </span>
-                  <span className={`text-xs w-20 shrink-0 truncate ${
-                    mode === 'light' ? 'text-zinc-500' : 'text-zinc-400'
-                  }`}>
-                    {label}
-                  </span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <span
-                    className={`truncate max-w-[200px] ${
-                      mode === 'light' ? 'text-zinc-900' : 'text-zinc-200'
-                    }`}
-                    style={{
-                      fontSize: `${Math.min(size, 32)}px`,
-                      fontFamily: fontConfig.primaryFont,
-                    }}
-                  >
-                    Aa Bb Cc
-                  </span>
-                  <span className={`text-xs font-mono w-16 text-right shrink-0 ${
-                    mode === 'light' ? 'text-zinc-600' : 'text-zinc-500'
+                  <span className={`text-xs font-mono ${
+                    mode === 'light' ? 'text-zinc-700' : 'text-zinc-400'
                   }`}>
                     {token.value}
                   </span>

@@ -2,7 +2,7 @@ import React from 'react';
 import { useTokenStore } from '../../stores/tokenStore';
 
 export const FontConfig: React.FC = () => {
-  const { fontConfig, setFontConfig, mode } = useTokenStore();
+  const { fontConfig, setFontConfig, mode, themeColor } = useTokenStore();
 
   const fontOptions = [
     { label: 'Inter', value: 'Inter, system-ui, sans-serif' },
@@ -32,9 +32,21 @@ export const FontConfig: React.FC = () => {
           onChange={(e) => setFontConfig({ primaryFont: e.target.value })}
           className={`w-full px-3 py-2 border rounded-lg text-sm transition-all focus:outline-none focus:ring-1 ${
             mode === 'light'
-              ? 'bg-white border-zinc-300 text-zinc-900 focus:border-blue-500 focus:ring-blue-500/50'
-              : 'bg-zinc-800 border-zinc-700 text-zinc-200 focus:border-blue-500 focus:ring-blue-500/50'
+              ? 'bg-white border-zinc-300 text-zinc-900'
+              : 'bg-zinc-800 border-zinc-700 text-zinc-200'
           }`}
+          style={{
+            outlineColor: themeColor,
+            boxShadow: 'none',
+          }}
+          onFocus={(e) => {
+            e.target.style.borderColor = themeColor;
+            e.target.style.boxShadow = `0 0 0 1px ${themeColor}50`;
+          }}
+          onBlur={(e) => {
+            e.target.style.borderColor = '';
+            e.target.style.boxShadow = 'none';
+          }}
         >
           {fontOptions.map((font) => (
             <option key={font.value} value={font.value} style={{ fontFamily: font.value }}>
@@ -55,9 +67,21 @@ export const FontConfig: React.FC = () => {
           onChange={(e) => setFontConfig({ monoFont: e.target.value })}
           className={`w-full px-3 py-2 border rounded-lg text-sm transition-all focus:outline-none focus:ring-1 ${
             mode === 'light'
-              ? 'bg-white border-zinc-300 text-zinc-900 focus:border-blue-500 focus:ring-blue-500/50'
-              : 'bg-zinc-800 border-zinc-700 text-zinc-200 focus:border-blue-500 focus:ring-blue-500/50'
+              ? 'bg-white border-zinc-300 text-zinc-900'
+              : 'bg-zinc-800 border-zinc-700 text-zinc-200'
           }`}
+          style={{
+            outlineColor: themeColor,
+            boxShadow: 'none',
+          }}
+          onFocus={(e) => {
+            e.target.style.borderColor = themeColor;
+            e.target.style.boxShadow = `0 0 0 1px ${themeColor}50`;
+          }}
+          onBlur={(e) => {
+            e.target.style.borderColor = '';
+            e.target.style.boxShadow = 'none';
+          }}
         >
           {monoOptions.map((font) => (
             <option key={font.value} value={font.value} style={{ fontFamily: font.value }}>
@@ -90,13 +114,26 @@ export const FontConfig: React.FC = () => {
             [&::-webkit-slider-thumb]:w-5
             [&::-webkit-slider-thumb]:h-5
             [&::-webkit-slider-thumb]:rounded-full
-            [&::-webkit-slider-thumb]:bg-blue-500
             [&::-webkit-slider-thumb]:border-2
             [&::-webkit-slider-thumb]:border-white
-            [&::-webkit-slider-thumb]:shadow-lg ${
+            [&::-webkit-slider-thumb]:shadow-lg
+            [&::-webkit-slider-thumb]:cursor-pointer
+            [&::-webkit-slider-thumb]:transition-all
+            [&::-webkit-slider-thumb]:hover:scale-110 ${
             mode === 'light' ? 'bg-zinc-200' : 'bg-zinc-800'
           }`}
+          style={{
+            '--thumb-bg': themeColor,
+          } as React.CSSProperties}
         />
+        <style dangerouslySetInnerHTML={{ __html: `
+          input[type="range"]::-webkit-slider-thumb {
+            background-color: ${themeColor} !important;
+          }
+          input[type="range"]::-moz-range-thumb {
+            background-color: ${themeColor} !important;
+          }
+        `}} />
         <div className={`flex justify-between mt-1 text-xs ${
           mode === 'light' ? 'text-zinc-600' : 'text-zinc-500'
         }`}>
@@ -129,12 +166,17 @@ export const FontConfig: React.FC = () => {
             [&::-webkit-slider-thumb]:w-5
             [&::-webkit-slider-thumb]:h-5
             [&::-webkit-slider-thumb]:rounded-full
-            [&::-webkit-slider-thumb]:bg-blue-500
             [&::-webkit-slider-thumb]:border-2
             [&::-webkit-slider-thumb]:border-white
-            [&::-webkit-slider-thumb]:shadow-lg ${
+            [&::-webkit-slider-thumb]:shadow-lg
+            [&::-webkit-slider-thumb]:cursor-pointer
+            [&::-webkit-slider-thumb]:transition-all
+            [&::-webkit-slider-thumb]:hover:scale-110 ${
             mode === 'light' ? 'bg-zinc-200' : 'bg-zinc-800'
           }`}
+          style={{
+            '--thumb-bg': themeColor,
+          } as React.CSSProperties}
         />
         <div className={`flex justify-between mt-1 text-xs ${
           mode === 'light' ? 'text-zinc-600' : 'text-zinc-500'
