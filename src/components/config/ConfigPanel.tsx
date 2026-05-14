@@ -1,8 +1,8 @@
 import React from 'react';
-import { Palette, Type, Sliders, Code } from 'lucide-react';
+import { Palette, Type, Code, Layers } from 'lucide-react';
 import { ColorPicker } from './ColorPicker';
-import { ScaleSlider } from './ScaleSlider';
 import { FontConfig } from './FontConfig';
+import { ComponentConfig } from './ComponentConfig';
 import { useTokenStore } from '../../stores/tokenStore';
 
 export const ConfigPanel: React.FC = () => {
@@ -40,6 +40,18 @@ export const ConfigPanel: React.FC = () => {
         ) : (
           <FontConfig />
         )}
+
+        <div className={`pt-4 border-t transition-colors duration-300 ${
+          mode === 'light' ? 'border-zinc-200' : 'border-zinc-800'
+        }`}>
+          <div className="flex items-center gap-2 mb-3">
+            <Layers className={`w-4 h-4`} style={{ color: themeColor }} />
+            <span className={`text-sm font-medium ${
+              mode === 'light' ? 'text-zinc-900' : 'text-zinc-200'
+            }`}>Components</span>
+          </div>
+          <ComponentConfig />
+        </div>
         
         <div className={`pt-4 border-t transition-colors duration-300 ${
           mode === 'light' ? 'border-zinc-200' : 'border-zinc-800'

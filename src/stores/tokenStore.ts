@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { GeneratedTokens, FontConfig, ThemeMode } from '../types/tokens';
+import { ComponentConfig, GeneratedTokens, FontConfig, ThemeMode } from '../types/tokens';
 import { generateTokens } from '../utils/color/tokens';
 
 export type EditMode = 'color' | 'typography';
@@ -12,12 +12,15 @@ interface TokenState {
   mode: 'light' | 'dark';
   editMode: EditMode;
   showJsonPreview: boolean;
+  componentConfigs: ComponentConfig[];
   setThemeColor: (color: string) => void;
   setFontConfig: (config: Partial<FontConfig>) => void;
   setMode: (mode: 'light' | 'dark') => void;
   toggleMode: () => void;
   setEditMode: (mode: EditMode) => void;
   setShowJsonPreview: (show: boolean) => void;
+  setComponentConfigs: (configs: ComponentConfig[]) => void;
+  refreshTokens: () => void;
 }
 
 const defaultFontConfig: FontConfig = {
@@ -29,7 +32,7 @@ const defaultFontConfig: FontConfig = {
 
 const SCALE_COUNT = 10;
 
-export const useTokenStore = create<TokenState>((set) => ({
+export const useTokenStore = create<TokenState>((set, get) => ({
   themeColor: '#3b82f6',
   scaleCount: SCALE_COUNT,
   fontConfig: defaultFontConfig,
@@ -37,11 +40,12 @@ export const useTokenStore = create<TokenState>((set) => ({
   mode: 'light',
   editMode: 'color',
   showJsonPreview: false,
+  componentConfigs: [],
   
   setThemeColor: (color: string) =>
     set((state) => ({
       themeColor: color,
-      tokens: generateTokens(color, state.fontConfig),
+      tokens: generateTokens(color, state.fontConfig, state.componentConfigs),
     })),
 
   setFontConfig: (config: Partial<FontConfig>) =>
@@ -49,7 +53,7 @@ export const useTokenStore = create<TokenState>((set) => ({
       const newConfig = { ...state.fontConfig, ...config };
       return {
         fontConfig: newConfig,
-        tokens: generateTokens(state.themeColor, newConfig),
+        tokens: generateTokens(state.themeColor, newConfig, state.componentConfigs),
       };
     }),
 
@@ -63,4 +67,17 @@ export const useTokenStore = create<TokenState>((set) => ({
   setEditMode: (editMode: EditMode) => set({ editMode }),
 
   setShowJsonPreview: (showJsonPreview: boolean) => set({ showJsonPreview }),
+
+  setComponentConfigs: (configs: ComponentConfig[]) =>
+    set((state) => ({
+      componentConfigs: configs,
+      tokens: generateTokens(state.themeColor, state.fontConfig, configs),
+    })),
+
+  refreshTokens: () => {
+    const state = get();
+    set({
+      tokens: generateTokens(state.themeColor, state.fontConfig, state.componentConfigs),
+    });
+  },
 }));

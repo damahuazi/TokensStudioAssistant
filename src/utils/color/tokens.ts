@@ -1,4 +1,4 @@
-import { FontConfig, GeneratedTokens, TokenValue } from '../../types/tokens';
+import { ComponentConfig, FontConfig, GeneratedTokens, TokenValue } from '../../types/tokens';
 import {
   generateColorScale,
   generateNeutralScale,
@@ -17,7 +17,8 @@ const SCALE_COUNT = 10;
 
 export const generateTokens = (
   themeColor: string,
-  fontConfig: FontConfig
+  fontConfig: FontConfig,
+  componentConfigs?: ComponentConfig[]
 ): GeneratedTokens => {
   const brandScale = generateColorScale(themeColor, SCALE_COUNT);
   const neutralScale = generateNeutralScale(themeColor, SCALE_COUNT);
@@ -213,52 +214,96 @@ export const generateTokens = (
     },
   };
 
-  const components: GeneratedTokens['components'] = {
-    input: {
-      background: createTokenValue('{surface.default}', 'color'),
-      border: createTokenValue('{border.default}', 'color'),
-      borderHover: createTokenValue('{border.strong}', 'color'),
-      borderFocus: createTokenValue('{border.brand}', 'color'),
-      placeholder: createTokenValue('{text.placeholder}', 'color'),
-      foreground: createTokenValue('{text.primary}', 'color'),
-      radius: createTokenValue('{global.radius.md}', 'borderRadius'),
-      paddingX: createTokenValue('{global.spacing.md}', 'spacing'),
-      paddingY: createTokenValue('{global.spacing.sm}', 'spacing'),
-      fontSize: createTokenValue('{global.fontSize.16}', 'fontSize'),
-    },
-    button: {
-      primary: {
-        background: createTokenValue('{surface.brand}', 'color'),
-        backgroundHover: createTokenValue('{global.color.brand.600}', 'color'),
-        foreground: createTokenValue('{text.onBrand}', 'color'),
-        borderRadius: createTokenValue('{global.radius.md}', 'borderRadius'),
-        paddingX: createTokenValue('{global.spacing.lg}', 'spacing'),
-        paddingY: createTokenValue('{global.spacing.sm}', 'spacing'),
-        fontSize: createTokenValue('{global.fontSize.16}', 'fontSize'),
-        fontWeight: createTokenValue('{global.fontWeight.medium}', 'fontWeight'),
-      },
-      secondary: {
-        background: createTokenValue('{surface.default}', 'color'),
-        backgroundHover: createTokenValue('{surface.subtle}', 'color'),
-        foreground: createTokenValue('{text.primary}', 'color'),
-        borderRadius: createTokenValue('{global.radius.md}', 'borderRadius'),
-        paddingX: createTokenValue('{global.spacing.lg}', 'spacing'),
-        paddingY: createTokenValue('{global.spacing.sm}', 'spacing'),
-        fontSize: createTokenValue('{global.fontSize.16}', 'fontSize'),
-        fontWeight: createTokenValue('{global.fontWeight.medium}', 'fontWeight'),
-      },
-      ghost: {
-        background: createTokenValue('transparent', 'color'),
-        backgroundHover: createTokenValue('{surface.subtle}', 'color'),
-        foreground: createTokenValue('{text.primary}', 'color'),
-        borderRadius: createTokenValue('{global.radius.md}', 'borderRadius'),
-        paddingX: createTokenValue('{global.spacing.lg}', 'spacing'),
-        paddingY: createTokenValue('{global.spacing.sm}', 'spacing'),
-        fontSize: createTokenValue('{global.fontSize.16}', 'fontSize'),
-        fontWeight: createTokenValue('{global.fontWeight.medium}', 'fontWeight'),
-      },
-    },
+  const generateComponents = (configs?: ComponentConfig[]): GeneratedTokens['components'] => {
+    if (!configs || configs.length === 0) {
+      return {
+        input: {
+          background: createTokenValue('{surface.default}', 'color'),
+          border: createTokenValue('{border.default}', 'color'),
+          borderHover: createTokenValue('{border.strong}', 'color'),
+          borderFocus: createTokenValue('{border.brand}', 'color'),
+          placeholder: createTokenValue('{text.placeholder}', 'color'),
+          foreground: createTokenValue('{text.primary}', 'color'),
+          radius: createTokenValue('{global.radius.md}', 'borderRadius'),
+          paddingX: createTokenValue('{global.spacing.md}', 'spacing'),
+          paddingY: createTokenValue('{global.spacing.sm}', 'spacing'),
+          fontSize: createTokenValue('{global.fontSize.16}', 'fontSize'),
+        },
+        button: {
+          primary: {
+            background: createTokenValue('{surface.brand}', 'color'),
+            backgroundHover: createTokenValue('{global.color.brand.600}', 'color'),
+            foreground: createTokenValue('{text.onBrand}', 'color'),
+            borderRadius: createTokenValue('{global.radius.md}', 'borderRadius'),
+            paddingX: createTokenValue('{global.spacing.lg}', 'spacing'),
+            paddingY: createTokenValue('{global.spacing.sm}', 'spacing'),
+            fontSize: createTokenValue('{global.fontSize.16}', 'fontSize'),
+            fontWeight: createTokenValue('{global.fontWeight.medium}', 'fontWeight'),
+          },
+          secondary: {
+            background: createTokenValue('{surface.default}', 'color'),
+            backgroundHover: createTokenValue('{surface.subtle}', 'color'),
+            foreground: createTokenValue('{text.primary}', 'color'),
+            borderRadius: createTokenValue('{global.radius.md}', 'borderRadius'),
+            paddingX: createTokenValue('{global.spacing.lg}', 'spacing'),
+            paddingY: createTokenValue('{global.spacing.sm}', 'spacing'),
+            fontSize: createTokenValue('{global.fontSize.16}', 'fontSize'),
+            fontWeight: createTokenValue('{global.fontWeight.medium}', 'fontWeight'),
+          },
+          ghost: {
+            background: createTokenValue('transparent', 'color'),
+            backgroundHover: createTokenValue('{surface.subtle}', 'color'),
+            foreground: createTokenValue('{text.primary}', 'color'),
+            borderRadius: createTokenValue('{global.radius.md}', 'borderRadius'),
+            paddingX: createTokenValue('{global.spacing.lg}', 'spacing'),
+            paddingY: createTokenValue('{global.spacing.sm}', 'spacing'),
+            fontSize: createTokenValue('{global.fontSize.16}', 'fontSize'),
+            fontWeight: createTokenValue('{global.fontWeight.medium}', 'fontWeight'),
+          },
+        },
+      };
+    }
+
+    const components: GeneratedTokens['components'] = {};
+
+    configs.forEach((config) => {
+      if (!config.enabled) return;
+
+      const component: { [key: string]: TokenValue | { [key: string]: TokenValue } } = {};
+
+      const hasVariants = config.variants.length > 0;
+
+      if (hasVariants) {
+        config.variants.forEach((variant) => {
+          if (!variant.enabled) return;
+
+          const variantTokens: { [key: string]: TokenValue } = {};
+
+          variant.states.forEach((state) => {
+            state.properties.forEach((propertyKey) => {
+              const property = config.properties.find((p) => p.key === propertyKey);
+              if (!property) return;
+
+              const tokenKey = state.key === 'default' ? propertyKey : `${propertyKey}${state.key.charAt(0).toUpperCase() + state.key.slice(1)}`;
+              variantTokens[tokenKey] = createTokenValue(property.defaultToken, property.type);
+            });
+          });
+
+          component[variant.key] = variantTokens;
+        });
+      } else {
+        config.properties.forEach((property) => {
+          component[property.key] = createTokenValue(property.defaultToken, property.type);
+        });
+      }
+
+      components[config.key] = component;
+    });
+
+    return components;
   };
+
+  const components = generateComponents(componentConfigs);
 
   return { global, typography, light, dark, components };
 };

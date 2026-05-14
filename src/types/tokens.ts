@@ -3,6 +3,35 @@ export interface TokenValue {
   type: string;
 }
 
+export interface ComponentProperty {
+  key: string;
+  label: string;
+  type: 'color' | 'spacing' | 'fontSize' | 'fontWeight' | 'borderRadius';
+  defaultToken: string;
+  availableTokens: string[];
+}
+
+export interface ComponentState {
+  key: string;
+  label: string;
+  properties: string[];
+}
+
+export interface ComponentVariant {
+  key: string;
+  label: string;
+  enabled: boolean;
+  states: ComponentState[];
+}
+
+export interface ComponentConfig {
+  key: string;
+  label: string;
+  enabled: boolean;
+  variants: ComponentVariant[];
+  properties: ComponentProperty[];
+}
+
 export interface ColorPrimitives {
   [key: string]: {
     [scale: string]: TokenValue;
@@ -86,6 +115,10 @@ export interface TypographySet {
   };
 }
 
+export interface ComponentTokens {
+  [key: string]: TokenValue | { [key: string]: TokenValue };
+}
+
 export interface GeneratedTokens {
   global: {
     fontSize: {
@@ -105,14 +138,19 @@ export interface GeneratedTokens {
   light: ThemeSet;
   dark: ThemeSet;
   components: {
-    input: {
-      [key: string]: TokenValue;
-    };
-    button: {
-      [variant: string]: {
-        [key: string]: TokenValue;
-      };
-    };
+    button?: ComponentTokens;
+    input?: ComponentTokens;
+    textarea?: ComponentTokens;
+    select?: ComponentTokens;
+    checkbox?: ComponentTokens;
+    radio?: ComponentTokens;
+    switch?: ComponentTokens;
+    tag?: ComponentTokens;
+    card?: ComponentTokens;
+    badge?: ComponentTokens;
+    progress?: ComponentTokens;
+    slider?: ComponentTokens;
+    [key: string]: ComponentTokens | undefined;
   };
 }
 
