@@ -280,12 +280,16 @@ export const generateTokens = (
           const variantTokens: { [key: string]: TokenValue } = {};
 
           variant.states.forEach((state) => {
-            state.properties.forEach((propertyKey) => {
+            state.properties.forEach((prop) => {
+              const propertyKey = typeof prop === 'string' ? prop : prop.key;
+              const customToken = typeof prop === 'object' ? prop.token : null;
+              
               const property = config.properties.find((p) => p.key === propertyKey);
               if (!property) return;
 
+              const tokenValue = customToken || property.defaultToken;
               const tokenKey = state.key === 'default' ? propertyKey : `${propertyKey}${state.key.charAt(0).toUpperCase() + state.key.slice(1)}`;
-              variantTokens[tokenKey] = createTokenValue(property.defaultToken, property.type);
+              variantTokens[tokenKey] = createTokenValue(tokenValue, property.type);
             });
           });
 

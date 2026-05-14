@@ -560,8 +560,12 @@ interface ComponentStoreState {
   configs: ComponentConfig[];
   setComponentEnabled: (componentKey: string, enabled: boolean) => void;
   setVariantEnabled: (componentKey: string, variantKey: string, enabled: boolean) => void;
+  setPropertyToken: (componentKey: string, variantKey: string, stateKey: string, propertyKey: string, token: string) => void;
+  resetPropertyToken: (componentKey: string, variantKey: string, stateKey: string, propertyKey: string) => void;
+  resetVariantConfig: (componentKey: string, variantKey: string) => void;
   resetConfigs: () => void;
   getEnabledComponents: () => ComponentConfig[];
+  getAvailableTokens: () => typeof availableTokens;
 }
 
 export const useComponentStore = create<ComponentStoreState>((set, get) => ({
@@ -588,6 +592,96 @@ export const useComponentStore = create<ComponentStoreState>((set, get) => ({
       ),
     })),
 
+  setPropertyToken: (componentKey: string, variantKey: string, stateKey: string, propertyKey: string, token: string) =>
+    set((state) => ({
+      configs: state.configs.map((config) =>
+        config.key === componentKey
+          ? {
+              ...config,
+              variants: config.variants.map((variant) =>
+                variant.key === variantKey
+                  ? {
+                      ...variant,
+                      states: variant.states.map((s) =>
+                        s.key === stateKey
+                          ? {
+                              ...s,
+                              properties: s.properties.map((prop) => {
+                                const propKey = typeof prop === 'string' ? prop : prop.key;
+                                if (propKey === propertyKey) {
+                                  return { key: propertyKey, token };
+                                }
+                                return prop;
+                              }),
+                            }
+                          : s
+                      ),
+                    }
+                  : variant
+              ),
+            }
+          : config
+      ),
+    })),
+
+  resetPropertyToken: (componentKey: string, variantKey: string, stateKey: string, propertyKey: string) => {
+    set((state) => ({
+      configs: state.configs.map((config) =>
+        config.key === componentKey
+          ? {
+              ...config,
+              variants: config.variants.map((variant) =>
+                variant.key === variantKey
+                  ? {
+                      ...variant,
+                      states: variant.states.map((s) =>
+                        s.key === stateKey
+                          ? {
+                              ...s,
+                              properties: s.properties.map((prop) => {
+                                const propKey = typeof prop === 'string' ? prop : prop.key;
+                                if (propKey === propertyKey) {
+                                  return propertyKey;
+                                }
+                                return prop;
+                              }),
+                            }
+                          : s
+                      ),
+                    }
+                  : variant
+              ),
+            }
+          : config
+      ),
+    }));
+  },
+
+  resetVariantConfig: (componentKey: string, variantKey: string) => {
+    const state = get();
+    const component = state.configs.find((c) => c.key === componentKey);
+    if (!component) return;
+
+    const defaultComponent = defaultComponentConfigs.find((c) => c.key === componentKey);
+    if (!defaultComponent) return;
+
+    const defaultVariant = defaultComponent.variants.find((v) => v.key === variantKey);
+    if (!defaultVariant) return;
+
+    set((state) => ({
+      configs: state.configs.map((config) =>
+        config.key === componentKey
+          ? {
+              ...config,
+              variants: config.variants.map((variant) =>
+                variant.key === variantKey ? JSON.parse(JSON.stringify(defaultVariant)) : variant
+              ),
+            }
+          : config
+      ),
+    }));
+  },
+
   resetConfigs: () => set({ configs: JSON.parse(JSON.stringify(defaultComponentConfigs)) }),
 
   getEnabledComponents: () =>
@@ -595,4 +689,6 @@ export const useComponentStore = create<ComponentStoreState>((set, get) => ({
       ...config,
       variants: config.variants.filter((variant) => variant.enabled),
     })),
+
+  getAvailableTokens: () => availableTokens,
 }));

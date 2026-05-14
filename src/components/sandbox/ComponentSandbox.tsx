@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Square, MousePointer } from 'lucide-react';
+import { Square, MousePointer, Settings } from 'lucide-react';
 import { InputDemo } from './InputDemo';
 import { ButtonDemo } from './ButtonDemo';
+import { ComponentConfigEditor } from './ComponentConfigEditor';
 import { useTokenStore } from '../../stores/tokenStore';
 
-type DemoType = 'input' | 'button';
+type DemoType = 'input' | 'button' | 'config';
 
 export const ComponentSandbox: React.FC = () => {
   const [activeDemo, setActiveDemo] = useState<DemoType>('input');
@@ -13,6 +14,7 @@ export const ComponentSandbox: React.FC = () => {
   const tabs = [
     { key: 'input' as const, label: 'Input', icon: Square },
     { key: 'button' as const, label: 'Button', icon: MousePointer },
+    { key: 'config' as const, label: 'Config', icon: Settings },
   ];
 
   return (
@@ -47,6 +49,7 @@ export const ComponentSandbox: React.FC = () => {
       }`}>
         {activeDemo === 'input' && <InputDemo />}
         {activeDemo === 'button' && <ButtonDemo />}
+        {activeDemo === 'config' && <ComponentConfigEditor />}
       </div>
     </div>
   );

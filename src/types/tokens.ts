@@ -3,6 +3,11 @@ export interface TokenValue {
   type: string;
 }
 
+export interface PropertyValue {
+  key: string;
+  token: string;
+}
+
 export interface ComponentProperty {
   key: string;
   label: string;
@@ -14,7 +19,7 @@ export interface ComponentProperty {
 export interface ComponentState {
   key: string;
   label: string;
-  properties: string[];
+  properties: (string | PropertyValue)[];
 }
 
 export interface ComponentVariant {
